@@ -20,7 +20,7 @@ const Songs = () => {
         return res.json();
       })
       .then((data) => {
-          setuser(data); // Ensure data is an array
+          setsong(data); // Ensure data is an array
           setLoading(false);
       })
       .catch((error) => {
@@ -42,7 +42,7 @@ const Songs = () => {
             <h1>Songs</h1>
         </div>
         <div>
-          {Array.isArray(user) && song.length > 0 ? (
+          {Array.isArray(song) && song.length > 0 ? (
             song.map((data) => (
                 <p key={data.id}>{data.title} + " " + {data.artist}</p>
             ))

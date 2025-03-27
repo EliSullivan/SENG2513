@@ -10,7 +10,7 @@ const Home = () => {
                 justifyContent: "center"
             }}>
                 This is 
-                <span style={{ color: "green" }}>
+                <span style={{ color: "blue" }}>
                     My application 
                 </span>
                 Home

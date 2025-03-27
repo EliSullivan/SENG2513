@@ -31,6 +31,7 @@ const syncModels = async () => {
       });
     }
 
+    //insert songs into song table
     Song.bulkCreate(songs)
       .then(() => {
         console.log('Songs inserted successfully.');

@@ -1,5 +1,6 @@
 import sequelize from '../config/database.js';
 import User from './user.js';
+import Song from './song.js';
 
 const syncModels = async () => {
     try {
@@ -30,6 +31,6 @@ const syncModels = async () => {
   };
   
  export {
-    sequelize, User, syncModels
+    sequelize, User, Song, syncModels
   };
   

@@ -26,7 +26,7 @@
   }
   
   .nav-links li a:hover {
-    color: #f0a500;
+    color: #f00000;
   }
   
   @media screen and (max-width: 768px) {

@@ -44,7 +44,7 @@ const Songs = () => {
         <div>
           {Array.isArray(song) && song.length > 0 ? (
             song.map((data) => (
-                <p key={data.id}>{data.title} + " " + {data.artist}</p>
+                <p key={data.id}>{data.title} {data.artist}</p>
             ))
           ) : (
             <p>No songs found or data is not in expected format.</p>

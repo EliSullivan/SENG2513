@@ -23,7 +23,7 @@ app.get("/api/user", async (req, res) => {
 });
 
 app.get("/api/song", async (req, res) => {
-  // Find all songs ?
+  // Find all songs(?)
     const songs = await Song.findAll();
   return res.json(songs);
 })

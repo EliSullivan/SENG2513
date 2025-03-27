@@ -19,6 +19,26 @@ const syncModels = async () => {
         });
     }
 
+    const songs = [];
+    for(let i = 1; i <=10; i++){
+      songs.push({
+        title: `Song ${i}`,
+        artist: `Artist ${i}`,
+        album: `Album ${i}`,
+        genre: `Genre ${i}`,
+        lyrics: `Lyrics ${i}`,
+        credits: `Credits ${i}`
+      });
+    }
+
+    Song.bulkCreate(songs)
+      .then(() => {
+        console.log('Songs inserted successfully.');
+      })
+      .catch((error) => {
+        console.error('Error inserting songs:', error);
+      });
+
     // Insert users into the table
     User.bulkCreate(users)
         .then(() => {

@@ -11,7 +11,7 @@ const Song = sequelize.define('song', {
   credits: DataTypes.STRING
 });
 
-User.prototype.toJSON = function() {
+Song.prototype.toJSON = function() {
   const values = { ...this.get() };
   return values;
 };

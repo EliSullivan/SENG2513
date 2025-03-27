@@ -4,7 +4,6 @@ import sequelize from '../config/database.js';
 
 const Playlist = sequelize.define('playlist', {
   title: DataTypes.STRING,
-  id: DataTypes.INTEGER,
 });
 
 Playlist.prototype.toJSON = function() {

@@ -9,6 +9,7 @@ const PORT = 3001;
 import User from './models/user.js';
 import Song from './models/song.js';
 import { syncModels } from "./models/index.js";
+import { fetchData } from "./models/index.js";
 
 syncModels();
 
@@ -24,7 +25,7 @@ app.get("/api/user", async (req, res) => {
 
 app.get("/api/song", async (req, res) => {
   // Find all songs(?)
-    const songs = await Song.findAll();
+    const songs = fetchData();
   return res.json(songs);
 })
 

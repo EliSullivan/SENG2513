@@ -1,6 +1,31 @@
 import sequelize from '../config/database.js';
 import User from './user.js';
 import Song from './song.js';
+import axios from 'axios';
+
+// copy/paste from api
+const options = {
+  method: 'GET',
+  url: 'https://spotify-downloader9.p.rapidapi.com/tracks',
+  params: {
+    ids: '7jT3LcNj4XPYOlbNkPWNhU, '
+  },
+  headers: {
+    'x-rapidapi-key': 'c0d9a61a11msh4bc465a39dbbd8ep110b0fjsn9d9f22401ae0',
+    'x-rapidapi-host': 'spotify-downloader9.p.rapidapi.com'
+  }
+};
+
+async function fetchData() {
+	try {
+		const response = await axios.request(options);
+		console.log(response.data);
+	} catch (error) {
+		console.error(error);
+	}
+}
+
+fetchData();
 
 const syncModels = async () => {
     try {

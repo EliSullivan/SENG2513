@@ -1,6 +1,8 @@
 import sequelize from '../config/database.js';
 import User from './user.js';
 import Song from './song.js';
+import Playlist from './playlist.js';
+
 import axios from 'axios';
 
 // copy/paste from api
@@ -20,6 +22,7 @@ async function fetchData() {
 	try {
 		const response = await axios.request(options);
 		console.log(response.data);
+    const songTitle = response.data.data.tracks[0]; //can't get this to read
 	} catch (error) {
 		console.error(error);
 	}
@@ -45,16 +48,22 @@ const syncModels = async () => {
     }
 
     const songs = [];
+    
+
+    const playlist = [];
     for(let i = 1; i <=10; i++){
-      songs.push({
-        title: `Song ${i}`,
-        artist: `Artist ${i}`,
-        album: `Album ${i}`,
-        genre: `Genre ${i}`,
-        lyrics: `Lyrics ${i}`,
-        credits: `Credits ${i}`
+      playlist.push({
+        title: `Playlist ${i}`,
       });
     }
+    Playlist.bulkCreate(playlist)
+    .then(() => {
+      console.log('Playlist inserted successfully.');
+    })
+    .catch((error) => {
+      console.error('Error inserting playlist:', error);
+    });
+
 
     //insert songs into song table
     Song.bulkCreate(songs)

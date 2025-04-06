@@ -6,9 +6,9 @@ const Song = sequelize.define('song', {
   title: DataTypes.STRING,
   artist: DataTypes.STRING,
   album: DataTypes.STRING,
-  genre: DataTypes.STRING,
+  //genre: DataTypes.STRING,
   lyrics: DataTypes.STRING,
-  credits: DataTypes.STRING
+  //credits: DataTypes.STRING
 });
 
 Song.prototype.toJSON = function() {

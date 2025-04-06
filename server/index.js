@@ -8,6 +8,7 @@ app.use(CORS);
 const PORT = 3001;
 import User from './models/user.js';
 import Song from './models/song.js';
+import Playlist from './models/playlist.js';
 import { syncModels } from "./models/index.js";
 
 syncModels();
@@ -26,6 +27,12 @@ app.get("/api/song", async (req, res) => {
   // Find all songs(?)
     const songs = await Song.findAll();
   return res.json(songs);
+})
+
+app.get("/api/playlist", async (req, res) => {
+  // Find all playlists
+    const playlist = await Playlist.findAll();
+  return res.json(playlist);
 })
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

@@ -10,14 +10,14 @@ root.render(
   <React.StrictMode>
     <div>
       <header>
-        <h1>React App</h1>
+        <h1>Music Player</h1>
         <div></div>
       </header>
       <BrowserRouter>
         <App />
       </BrowserRouter>
       <footer>
-        <p>&copy; 2025 Your Project Name</p>
+        <p>&copy; 2025 Music Player</p>
       </footer>
     </div>
 

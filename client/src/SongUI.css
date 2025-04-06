@@ -1,0 +1,34 @@
+div .container{
+    height: 95vh;
+    width: 100vh;
+    float: right;
+}
+
+div .song{
+    background-color: #484848;
+    width: 50%;
+    height: 50%;
+    margin: 0 auto;
+    float: top;
+    text-align: center;
+}
+
+.song h2{
+    float: bottom;
+}
+
+div .queue{
+    font-size: .5rem;
+    float: top;
+    margin: 0 auto;
+    background-color: #484848;
+    max-width: 50%;
+    max-height: 15%;
+    text-align: left;
+}
+
+img{
+    margin: 0 auto;
+    max-width: 50%;
+    max-height: 50%;
+}

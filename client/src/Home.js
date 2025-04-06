@@ -1,6 +1,8 @@
 // Home.jsx
 
 import React from "react";
+import SongUI from "./SongUI"; //not sure why this is throwing an error for me
+
 
 const Home = () => {
     return (
@@ -9,12 +11,7 @@ const Home = () => {
                 display: "flex",
                 justifyContent: "center"
             }}>
-                This is 
-                <span style={{ color: "blue" }}>
-                    My application 
-                </span>
-                Home
-                Page
+                <SongUI />
             </div>
         </>
     );

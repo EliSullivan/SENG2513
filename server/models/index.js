@@ -10,25 +10,24 @@ const options = {
   method: 'GET',
   url: 'https://spotify-downloader9.p.rapidapi.com/tracks',
   params: {
-    ids: '7jT3LcNj4XPYOlbNkPWNhU, '
+    ids: '5y1223VWplDW39cVFXDpzt, '
   },
   headers: {
-    'x-rapidapi-key': 'c0d9a61a11msh4bc465a39dbbd8ep110b0fjsn9d9f22401ae0',
+    'x-rapidapi-key': '5cb5d989efmsh8ebf3b013958e2ap16a7e7jsnb61418d48af4',
     'x-rapidapi-host': 'spotify-downloader9.p.rapidapi.com'
   }
 };
 
-async function fetchData() {
+export async function fetchData() {
 	try {
 		const response = await axios.request(options);
 		console.log(response.data);
-    const songTitle = response.data.data.tracks[0]; //can't get this to read
+    console.log(response.data.data.tracks[0])
+    return response.data;
 	} catch (error) {
 		console.error(error);
 	}
 }
-
-fetchData();
 
 const syncModels = async () => {
     try {

@@ -10,7 +10,7 @@ import User from './models/user.js';
 import Song from './models/song.js';
 import Playlist from './models/playlist.js';
 import { syncModels } from "./models/index.js";
-import { fetchData } from "./models/index.js";
+import { fetchData, getSongFromDB } from "./models/index.js";
 
 syncModels();
 
@@ -25,10 +25,16 @@ app.get("/api/user", async (req, res) => {
 });
 
 app.get("/api/song", async (req, res) => {
-  // Find all songs(?)
-    const songs = fetchData();
-  return res.json(songs);
-})
+  try {
+    await fetchData();
+    const songs = await getSongFromDB();
+    
+    return res.json(songs);
+  } catch (error) {
+    console.error("Error in /api/song:", error);
+    return res.status(500).json({ error: "Failed to fetch songs" });
+  }
+});
 
 app.get("/api/playlist", async (req, res) => {
   // Find all playlists

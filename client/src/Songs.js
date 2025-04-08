@@ -1,16 +1,11 @@
-// Songs.jsx
-
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Songs = () => {
-
-  const [song, setsong] = useState([]);
+  const [songs, setSongs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-    
+
   useEffect(() => {
-    
     fetch(`/api/song`)
       .then((res) => {
         console.log("Response status:", res.status);
@@ -20,38 +15,54 @@ const Songs = () => {
         return res.json();
       })
       .then((data) => {
-          setsong(data); // Ensure data is an array
-          setLoading(false);
+        console.log("Raw API response:", data);
+        setSongs(data);
+        setLoading(false);
       })
       .catch((error) => {
+        console.error("Error fetching songs:", error);
         setError(error.message);
         setLoading(false);
       });
   }, []);
 
-  
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div>Loading songs...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <>
-        <div style={{
-            display: "flex",
-            justifyContent: "center"
-        }}>
-            <h1>Songs</h1>
-        </div>
-        <div>
-          {Array.isArray(song) && song.length > 0 ? (
-            song.map((data) => (
-                <p key={data.id}>{data.title} {data.artist}</p>
-            ))
-          ) : (
-            <p>No songs found or data is not in expected format.</p>
-          )}
-        </div>
-    </>
+    <div>
+      <h1>Debug View</h1>
+      <h2>Raw API Response:</h2>
+      <pre>{JSON.stringify(songs, null, 2)}</pre>
+      
+      <h2>Track Details:</h2>
+      {Array.isArray(songs) ? (
+        <ul>
+          {songs.map((song) => (
+            <li key={song.id}>
+              <p><strong>Title:</strong> {song.title}</p>
+              <p><strong>Artist:</strong> {song.artist}</p>
+              <p><strong>Album:</strong> {song.album}</p>
+              <p><strong>ID:</strong> {song.id}</p>
+              {song.albumCoverUrl && (
+                <div style={{margin: '10px 0'}}>
+                  <p><strong>Album Cover:</strong></p>
+                  <img 
+                    src={song.albumCoverUrl} 
+                    alt={`${song.album} cover`} 
+                    style={{maxWidth: '200px', height: 'auto'}}
+                  />
+                </div>
+              )}
+              <hr />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Data is not in array format: {typeof songs}</p>
+      )}
+    </div>
   );
-}
+};
 
 export default Songs;

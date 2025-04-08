@@ -1,14 +1,16 @@
 import { DataTypes } from 'sequelize';
-
 import sequelize from '../config/database.js';
 
 const Song = sequelize.define('song', {
+  id: {
+    type: DataTypes.STRING,
+    primaryKey: true,
+  },
   title: DataTypes.STRING,
   artist: DataTypes.STRING,
   album: DataTypes.STRING,
-  genre: DataTypes.STRING,
-  lyrics: DataTypes.STRING,
-  credits: DataTypes.STRING
+  runtime: DataTypes.INTEGER,
+  albumCoverUrl: DataTypes.STRING,
 });
 
 Song.prototype.toJSON = function() {
@@ -17,4 +19,4 @@ Song.prototype.toJSON = function() {
 };
 
 export default Song;
-export{ Song };
+export { Song };

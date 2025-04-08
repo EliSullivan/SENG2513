@@ -11,7 +11,7 @@ const Home = () => {
             }}>
                 This is 
                 <span style={{ color: "blue" }}>
-                    My application 
+                     My application  
                 </span>
                 Home
                 Page

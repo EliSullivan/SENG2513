@@ -4,6 +4,7 @@ import React from "react";
 import { Link, Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import Playlist from "./Playlist";
+
 const Navbar = () => {
     return (
         <>

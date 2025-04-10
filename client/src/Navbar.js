@@ -3,9 +3,8 @@ import "./Navbar.css"
 import React from "react";
 import { Link, Routes, Route } from "react-router-dom";
 import Home from "./Home";
-import Companies from "./Companies";
-import Users from "./Users";
-import Songs from "./Songs";
+import Playlist from "./Playlist";
+
 const Navbar = () => {
     return (
         <>

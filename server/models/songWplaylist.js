@@ -15,5 +15,5 @@ SongPlaylist.prototype.toJSON = function() {
         const values = { ...this.get() };
         return values;
 };
-export default {SongPlaylist};
+export default SongPlaylist;
 export{SongPlaylist };

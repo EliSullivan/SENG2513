@@ -11,6 +11,7 @@ const Song = sequelize.define('song', {
   album: DataTypes.STRING,
   runtime: DataTypes.INTEGER,
   albumCoverUrl: DataTypes.STRING,
+  previewUrl: DataTypes.STRING
 });
 
 Song.prototype.toJSON = function() {

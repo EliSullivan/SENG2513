@@ -11,5 +11,5 @@ Playlist.prototype.toJSON = function() {
   return values;
 };
 
-export default { Playlist };
+export default Playlist;
 export{ Playlist };

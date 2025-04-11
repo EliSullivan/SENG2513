@@ -1,26 +1,49 @@
 import React from "react";
 import "./SongUI.css";
+import { useEffect, useState } from "react";
+
 
 const SongUI = () => {
+    const [isPlaying, setIsPlaying] = useState(false);
+    
+    const togglePlayPause = () => {
+        setIsPlaying(!isPlaying);
+        const audioElement = document.getElementById('songNowPlaying');
+        if (isPlaying) {
+            audioElement.pause();
+        } else {
+            audioElement.play();
+        }
+    };
+    
     return (
-        <>
-        <div class="container">
-            <div class="song">
-                <h1>Currently Playing:</h1>{/*will need to be state eventually*/}
-                <div class="albumCover">
-                <img alt="album cover" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpngimg.com%2Fuploads%2Fvinyl%2Fvinyl_PNG102.png&f=1&nofb=1&ipt=48fdf3fc7132e52c20be8b9cddcabe49d314085a98c55dc2c50a75111a7f9e34&ipo=images"></img> {/*album cover*/}
+        <div className="container">
+            <div className="song">
+                <audio src="" id="songNowPlaying"></audio>
+                <h1>Currently Playing:</h1>
+                <div className="albumCover">
+                    <img 
+                        alt="album cover" 
+                        src="https://pngimg.com/uploads/vinyl/vinyl_PNG102.png"
+                    />
                 </div>
+                
+                <button 
+                    type="button" 
+                    onClick={togglePlayPause} 
+                    className={isPlaying ? "pause-button" : "play-button"}
+                >
+                </button>
+                
                 <h2 id="title">Title</h2>
                 <h2 id="artist">Artist</h2>
             </div>
-
-            <div class="queue">
+            <div className="queue">
                 <h1>Next up:</h1>
                 <h2>Title</h2>
                 <h2>Artist</h2>
             </div>
         </div>
-        </>
     );
 };
 

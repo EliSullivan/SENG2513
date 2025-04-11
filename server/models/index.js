@@ -63,7 +63,8 @@ const syncModels = async () => {
         runtime: track.duration_ms,
         artist: track.artists.map(artist => artist.name).join(', '),
         album: track.album.name,
-        albumCoverUrl: track.album.images[0]?.url || null
+        albumCoverUrl: track.album.images[0]?.url || null,
+        previewUrl: track.preview_url || null
       };
       return trackData;
     });

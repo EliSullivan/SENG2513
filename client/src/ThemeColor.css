@@ -1,0 +1,54 @@
+.theme-switcher{
+    background-color: darkred ; padding: 20px; border-radius: 8px; margin: 20px 0;
+}
+.theme-buttons{
+    display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;
+}
+.theme-button{
+    width: 100px; height: 40px; border: none; border-radius: 20px; cursor: pointer; position: relative; transition: all 0.3s ease;
+}
+.theme-button:hover{
+    transform: translateY(-3px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    
+    .theme-button.active{
+        box-shadow: 0 0 0 3px #fff, 0 0 0 6px #000;
+}
+.theme-name{
+    Position: absolute; bottom: -25px; left: 0; right: 0; font-size: 12px; opacity: 0; transition: opacity 0.3s ease;
+}
+.theme-button:hover, .theme-name{
+opacity: 1;
+}
+.current-theme{
+    margin-top: 25px; font-weight: bold;
+}
+.theme-default{
+    --primary-color: #3498db; --secondary-color: #2980b9; --text-color: #333333; --background-color: #ffffff; --accent-color: #e74c3c;
+}
+.theme-dark{
+    --primary-color: #2c3e50; --secondary-color: #34495e; --text-color: #ecf0f1; --background-color: #1a1a1a; --accent-color: #3498db;
+}
+.theme-lemon{
+    --primary-color: yellow; --secondary-color: lightyellow; --text-color: black; --background-color: yellow; --accent-color: #f39c12;
+}
+.theme-bloodorange{
+    --primary-color: linear-gradient(orange, red); --secondary-color: darkorange; --text-color: black; --background-color: linear-gradient(red, orange); --accent-color: red;
+}
+.theme-rose{
+    --primary-color: pink; --secondary-color: #CC8899; --text-color: linear-gradient(grey, black); --background-color: #B57281; --accent-color: pink; 
+}
+.theme-velvetred{
+    --primary-color: darkred; --secondary-color: maroon; --text-color: beige; --background-color: #900D09; --accent-color: darkred;
+}
+.theme-purplerain{
+    --primary-color: indigo; --secondary-color: purple; --text-color: linear-gradient(blue, black); --background-color: indigo; --accent-color: linear-gradient(blue, black);
+}
+.theme-midnightblue{
+    --primary-color: #010445; --secondary-color: #040457; --text-color: linear-gradient(grey, black); --background-color: #02044A; --accent-color: #040457;
+}
+.theme-greenleaf{
+    --primary-color: darkgreen; --secondary-color: green; --text-color: linear-gradient(brown, black); --background-color: darkgreen; --accent-color: green;
+}
+.theme-light{
+    --primary-color: #ffffff; --secondary-color: #bdc3c7; --text-color: linear-gradient(lightgrey, black); --background-color: white; --accent-color: lightgrey;
+}

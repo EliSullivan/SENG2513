@@ -3,12 +3,8 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 
 const SongPlaylist = sequelize.define('SongPlaylist', {
-    title: DataTypes.STRING,
-    artist: DataTypes.STRING,
-    album: DataTypes.STRING,
-    genre: DataTypes.STRING,
-    lyrics: DataTypes.STRING,
-    credits: DataTypes.STRING
+    playlistTitle: DataTypes.STRING,
+    
 });
 
 SongPlaylist.prototype.toJSON = function() {

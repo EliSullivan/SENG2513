@@ -1,0 +1,7 @@
+.songdata{
+    padding-left: 40px;
+    width: 40%;
+    height: 100%;
+    float: left;
+    overflow-x: scroll;
+}

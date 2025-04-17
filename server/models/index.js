@@ -6,17 +6,31 @@ import SearchResults from './searchResults.js';
 
 import axios from 'axios';
 
-const options = {
+let detailsIds = "";
+let searchTerm = "";
+
+const apiHeaders = {
+  'x-rapidapi-key': 'c0d9a61a11msh4bc465a39dbbd8ep110b0fjsn9d9f22401ae0',
+  'x-rapidapi-host': 'spotify-downloader9.p.rapidapi.com'
+}
+
+const songDetailsOptions = {
   method: 'GET',
   url: 'https://spotify-downloader9.p.rapidapi.com/tracks',
   params: {
-    ids: '5y1223VWplDW39cVFXDpzt, 1K2NJafR21QS8Kox2RXSmY'
-  },
-  headers: {
-    'x-rapidapi-key': 'c0d9a61a11msh4bc465a39dbbd8ep110b0fjsn9d9f22401ae0',
-    'x-rapidapi-host': 'spotify-downloader9.p.rapidapi.com'
+    ids: detailsIds,
   }
-};
+}
+
+const searchResultsOptions = {
+  method: 'GET',
+  url: 'https://spotify-downloader9.p.rapidapi.com/search',
+  params: {
+    q: searchTerm
+  },
+  headers: apiHeaders
+}
+
 
 export async function fetchData() {
   try {
@@ -35,6 +49,14 @@ export const getSongFromDB = async () => {
 
 export const getSearchResults = async () => {
   return await SearchResults.findAll();
+}
+
+export const addToSongDetailsQueue = (newSong) => {
+  if (detailsIds == "") {
+    detailsIds = newSong;
+  } else {
+    detailsIds = detailsIds.join(', ' + newSong);
+  }
 }
 
 const syncModels = async () => {

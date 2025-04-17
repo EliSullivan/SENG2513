@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./Songs.css";
 
 const Songs = () => {
   const [songs, setSongs] = useState([]);
@@ -30,7 +31,7 @@ const Songs = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div>
+    <div class="songdata">
       <h1>Debug View</h1>
       <h2>Raw API Response:</h2>
       <pre>{JSON.stringify(songs, null, 2)}</pre>

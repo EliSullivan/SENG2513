@@ -12,7 +12,7 @@ const options = {
     ids: '5y1223VWplDW39cVFXDpzt, 1K2NJafR21QS8Kox2RXSmY'
   },
   headers: {
-    'x-rapidapi-key': '5cb5d989efmsh8ebf3b013958e2ap16a7e7jsnb61418d48af4',
+    'x-rapidapi-key': 'c0d9a61a11msh4bc465a39dbbd8ep110b0fjsn9d9f22401ae0',
     'x-rapidapi-host': 'spotify-downloader9.p.rapidapi.com'
   }
 };
@@ -73,6 +73,7 @@ const syncModels = async () => {
     for (let i = 1; i <= 10; i++) {
       playlist.push({
         title: `Playlist ${i}`,
+        //songs.push()
       });
     }
 

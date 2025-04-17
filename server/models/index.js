@@ -2,6 +2,7 @@ import sequelize from '../config/database.js';
 import User from './user.js';
 import Song from './song.js';
 import Playlist from './playlist.js';
+import SearchResults from './searchResults.js';
 
 import axios from 'axios';
 
@@ -32,29 +33,19 @@ export const getSongFromDB = async () => {
   return await Song.findAll();
 };
 
+export const getSearchResults = async () => {
+  return await SearchResults.findAll();
+}
+
 const syncModels = async () => {
   try {
     await sequelize.sync({ alter: true });
     console.log('All models were synchronized successfully.');
 
-
-    const apiResponse = await fetchData();
-
-    const tracks = apiResponse.data?.tracks;
-    
-    if (!tracks || !Array.isArray(tracks)) {
-      console.error('Unexpected API response structure:', apiResponse);
-      throw new Error('Invalid tracks data received from API');
-    }
-
-    // Generate 10 users
-    const users = [];
-    for (let i = 1; i <= 10; i++) {
-      users.push({
-        username: `User ${i}`,
-        email: `user${i}@example.com`,
-      });
-    }
+    // when not hard coded, don't fetchData everytime models sync
+    // if(songDetailsUpToDate)
+    apiSongDetails = await fetchData(songDetailsOptions);
+    const tracks = apiSongDetails.data?.tracks;
 
     const processedTracks = tracks.map(track => {
       const trackData = {
@@ -68,6 +59,30 @@ const syncModels = async () => {
       };
       return trackData;
     });
+    
+    // when not hard coded, don't fetchData everytime models sync
+    // if (searchResultsUpToDate())
+    searchResults = await fetchData(searchResultsOptions);
+    const trackResults = searchResults.data?.tracks;
+
+    const processedSearchResults = trackResults?.items.map(track => {
+      const trackData = {
+        id: track.id,
+        title: track.name,
+        artists: track.artists.join(', '),
+        runtime: track.duration
+      };
+      return trackData;
+    });
+
+    // Generate 10 users
+    const users = [];
+    for (let i = 1; i <= 10; i++) {
+      users.push({
+        username: `User ${i}`,
+        email: `user${i}@example.com`,
+      });
+    }
 
     const playlist = [];
     for (let i = 1; i <= 10; i++) {
@@ -81,7 +96,9 @@ const syncModels = async () => {
     await Promise.all([
       Playlist.bulkCreate(playlist),
       Song.bulkCreate(processedTracks),
-      User.bulkCreate(users)
+      User.bulkCreate(users),
+      SearchResults.bulkCreate(searchResults)
+      
     ]);
     
     console.log('All data inserted successfully.');

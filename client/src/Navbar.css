@@ -2,7 +2,8 @@
     display: flex;
     justify-content: space-between;
     float: left;
-    height: 100vh;
+    min-height: 100vh;
+    /*position: fixed;*/
     margin: none;
     width: vw;
     background-color: #333;

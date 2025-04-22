@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import "./Search.css";
 
 const Search = () => {
   const [searchResults, setSearchResults] = useState([]);

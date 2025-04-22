@@ -1,0 +1,4 @@
+.search-results-container{
+    height: 100vh;
+    overflow-y: scroll;
+}

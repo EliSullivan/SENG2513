@@ -3,8 +3,7 @@ import "./App.css";
 import React from "react";
 import Navbar from "./Navbar";
 import Home from "./Home";
-import './GlobalTheme.css';
-import ThemeToggle from './src/ThemeToggle';
+import ThemeToggle from './ThemeToggle';
 
 function App() {
   return (

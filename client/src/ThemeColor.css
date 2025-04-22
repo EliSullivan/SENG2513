@@ -1,4 +1,4 @@
-.theme-switcher{
+.theme-toggle{
     padding: 20px; border-radius: 8px; margin: 20px 0;
 }
 .theme-buttons{
@@ -16,7 +16,7 @@
 .theme-name{
     Position: absolute; bottom: -25px; left: 0; right: 0; font-size: 12px; opacity: 0; transition: opacity 0.3s ease;
 }
-.theme-button:hover, .theme-name{
+.theme-button:hover .theme-name{
 opacity: 1;
 }
 .current-theme{

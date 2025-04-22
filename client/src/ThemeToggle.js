@@ -15,7 +15,7 @@ const Themes= [
     {id:'light', name:'Light', color:'white'}
 ];
 
-function ThemeSwitcher() {
+function ThemeToggle() {
     const [currentTheme, setCurrentTheme]= useState(() => {
         const savedTheme= localStorage.getItem('selectedTheme');
         return savedTheme || 'default';
@@ -32,7 +32,7 @@ const handleThemeChange= (themeId) => {
     setCurrentTheme(themeId);
 };
 return(
-    <div className="theme-switcher">
+    <div className="theme-toggle">
         <h3>Choose a Theme</h3>
         <div className="theme-buttons">
             {themes.map((theme) => (
@@ -56,4 +56,4 @@ return(
 
 
 
-export default ThemeSwitcher;
+export default ThemeToggle;

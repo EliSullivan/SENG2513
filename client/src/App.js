@@ -4,7 +4,7 @@ import React from "react";
 import Navbar from "./Navbar";
 import Home from "./Home";
 import './GlobalTheme.css';
-import ThemeSwitcher from './components/ThemeSwitcher';
+import ThemeToggle from './src/ThemeToggle';
 
 function App() {
   return (

@@ -56,7 +56,7 @@ const Search = () => {
             <div className="track-item" key={track.id}>
               <div className="track-info">
                 <h3>{track.title}</h3>
-                <p>{track.artists}</p>
+                <p>Artist: {track.artists}</p>
                 {track.album && <p className="album-name">Album: {track.album}</p>}
                 {track.albumCoverUrl && (
                   <img 

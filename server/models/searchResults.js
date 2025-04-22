@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 
-const SearchResults = sequelize.define('song', {
+const SearchResults = sequelize.define('searchResult', {
   id: {
     type: DataTypes.STRING,
     primaryKey: true,

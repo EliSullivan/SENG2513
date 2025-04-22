@@ -9,9 +9,9 @@ import axios from 'axios';
 let detailsIds = "";
 let searchTerm = "";
 
-const apiHeaders = {
-  'x-rapidapi-key': '5cb5d989efmsh8ebf3b013958e2ap16a7e7jsnb61418d48af4',
-  'x-rapidapi-host': 'spotify-downloader9.p.rapidapi.com'
+export const apiHeaders = {
+   'x-rapidapi-key': 'c0d9a61a11msh4bc465a39dbbd8ep110b0fjsn9d9f22401ae0',
+    'x-rapidapi-host': 'spotify-downloader9.p.rapidapi.com'
 }
 
 const songDetailsOptions = {
@@ -70,12 +70,12 @@ const syncModels = async () => {
       const apiSongDetails = await fetchData(songDetailsOptions);
       const tracks = apiSongDetails?.data?.tracks || [];
 
-      const processedTracks = tracks.map(track => {
+      const processedTracks = tracks?.map(track => {
         const trackData = {
           id: track.id,
           title: track.name,
           runtime: track.duration_ms,
-          artist: track.artists.map(artist => artist.name).join(', '),
+          artist: track.artists?.map(artist => artist.name).join(', '),
           album: track.album.name,
           albumCoverUrl: track.album.images[0]?.url || null,
           previewUrl: track.preview_url || null
@@ -85,13 +85,13 @@ const syncModels = async () => {
 
       await Song.bulkCreate(processedTracks);
     }
-
+/*
     // Only fetch search results if we have a search term
     if (searchTerm) {
       const searchResults = await fetchData(searchResultsOptions);
       const trackResults = searchResults?.data?.tracks?.items || [];
 
-      const processedSearchResults = trackResults.map(track => {
+      const processedSearchResults = trackResults?.map(track => {
         const trackData = {
           id: track.id,
           title: track.name,
@@ -103,7 +103,7 @@ const syncModels = async () => {
 
       await SearchResults.bulkCreate(processedSearchResults);
     }
-
+*/
     // Generate 10 users
     const users = [];
     for (let i = 1; i <= 10; i++) {
@@ -134,5 +134,5 @@ const syncModels = async () => {
 };
 
 export {
-  sequelize, User, Song, syncModels
+  sequelize, User, Song, syncModels, searchTerm
 };

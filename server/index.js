@@ -1,18 +1,119 @@
-// server/index.js
+import axios from 'axios';
 import express from "express";
-import company from "./api/json/company.json" with {type: "json"}; // Importing JSON data from a file
+import company from "./api/json/company.json" with {type: "json"};
 const app = express();
-import cors from "cors"; // CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
+import cors from "cors";
 const CORS = cors();
 app.use(CORS);
 const PORT = 3001;
 import User from './models/user.js';
 import Song from './models/song.js';
 import Playlist from './models/playlist.js';
-import { syncModels } from "./models/index.js";
-import { fetchData, getSongFromDB, getSearchResults } from "./models/index.js";
+import { syncModels, getSongFromDB, apiHeaders } from "./models/index.js";
 
 syncModels();
+
+
+app.get('/api/test', (req, res) => {
+  console.log("Basic test endpoint called");
+  res.json({ message: "Test endpoint working" });
+});
+
+
+app.get('/api/search', async (req, res) => {
+  try {
+    const query = req.query.q;
+    console.log('Received search query:', query);
+   
+    if (!query) {
+      return res.status(400).json({ error: 'Search query is required' });
+    }
+   
+    const searchOptions = {
+      method: 'GET',
+      url: 'https://spotify-downloader9.p.rapidapi.com/search',
+      params: {
+        q: query,
+        type: 'multi',
+        limit: '20',
+        offset: '0',
+        noOfTopResults: '5'
+      },
+      headers: apiHeaders
+    };
+   
+    try {
+      console.log('Sending request to API...');
+      const searchResponse = await axios.request(searchOptions);
+      console.log('Received response from API');
+      
+      console.log('Response top level keys:', Object.keys(searchResponse.data || {}));
+      if (searchResponse.data && searchResponse.data.data) {
+        console.log('Keys under data:', Object.keys(searchResponse.data.data));
+        if (searchResponse.data.data.tracks) {
+          console.log('Found tracks object, keys:', Object.keys(searchResponse.data.data.tracks));
+        }
+      }
+      
+      let tracks = [];
+      
+      if (searchResponse.data && 
+          searchResponse.data.data && 
+          searchResponse.data.data.tracks && 
+          searchResponse.data.data.tracks.items) {
+        tracks = searchResponse.data.data.tracks.items;
+        console.log('Found tracks in data.data.tracks.items:', tracks.length);
+      } else {
+        console.log('No tracks found at expected path in API response');
+      }
+      
+      if (!tracks || tracks.length === 0) {
+        console.log('No tracks found in API response');
+        return res.json([]);
+      }
+      
+      const processedResults = tracks.map(track => {
+        try {
+          return {
+            id: track.id || 'unknown',
+            title: track.name || 'Unknown Title',
+            artists: track.artists && track.artists.items ? 
+              track.artists.items.map(a => a.profile && a.profile.name).join(', ') : 
+              'Unknown Artist',
+            runtime: track.duration && track.duration.totalMilliseconds || 0,
+            album: track.albumOfTrack && track.albumOfTrack.name || 'Unknown Album',
+            albumCoverUrl: track.albumOfTrack && track.albumOfTrack.coverArt && 
+              track.albumOfTrack.coverArt.length > 0 ? 
+              track.albumOfTrack.coverArt[0].url : null //images at diff indices are diff sizes 0 is smallest 2 is largest
+          };
+        } catch (err) {
+          console.error('Error processing track:', err);
+          return null;
+        }
+      }).filter(Boolean);
+      
+      console.log('Processed results:', processedResults.length);
+      return res.json(processedResults);
+      
+    } catch (apiError) {
+      console.error('API call failed:', apiError.message);
+      if (apiError.response) {
+        console.error('API error status:', apiError.response.status);
+        console.error('API error data:', apiError.response.data);
+      }
+      return res.status(500).json({
+        error: 'Failed to retrieve search results',
+        details: apiError.message
+      });
+    }
+  } catch (error) {
+    console.error('Server error:', error);
+    return res.status(500).json({
+      error: 'An unexpected error occurred',
+      details: error.message
+    });
+  }
+});
 
 app.get("/api/company", (req, res) => {
   return res.json(company);
@@ -35,6 +136,7 @@ app.get("/api/song", async (req, res) => {
   }
 });
 
+/*
 app.get("/api/search", async (req, res) => {
   try {
     const searchResults = await getSearchResults();
@@ -45,7 +147,7 @@ app.get("/api/search", async (req, res) => {
     return res.status(500).json({ error: "Failed to fetch search results" });
   }
 });
-
+*/
 app.get("/api/playlist", async (req, res) => {
   // Find all playlists
     const playlist = await Playlist.findAll();

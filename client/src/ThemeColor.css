@@ -1,5 +1,5 @@
 .theme-switcher{
-    background-color: darkred ; padding: 20px; border-radius: 8px; margin: 20px 0;
+    padding: 20px; border-radius: 8px; margin: 20px 0;
 }
 .theme-buttons{
     display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;
@@ -9,8 +9,8 @@
 }
 .theme-button:hover{
     transform: translateY(-3px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-    
-    .theme-button.active{
+}
+.theme-button.active{
         box-shadow: 0 0 0 3px #fff, 0 0 0 6px #000;
 }
 .theme-name{
@@ -23,7 +23,7 @@ opacity: 1;
     margin-top: 25px; font-weight: bold;
 }
 .theme-default{
-    --primary-color: #3498db; --secondary-color: #2980b9; --text-color: #333333; --background-color: #ffffff; --accent-color: #e74c3c;
+    --primary-color: linear-gradient(grey, black); --secondary-color: #333333; --text-color: black; --background-color: #333333; --accent-color: grey;
 }
 .theme-dark{
     --primary-color: #2c3e50; --secondary-color: #34495e; --text-color: #ecf0f1; --background-color: #1a1a1a; --accent-color: #3498db;
@@ -38,7 +38,7 @@ opacity: 1;
     --primary-color: pink; --secondary-color: #CC8899; --text-color: linear-gradient(grey, black); --background-color: #B57281; --accent-color: pink; 
 }
 .theme-velvetred{
-    --primary-color: darkred; --secondary-color: maroon; --text-color: beige; --background-color: #900D09; --accent-color: darkred;
+    --primary-color: darkred; --secondary-color: maroon; --text-color: black; --background-color: #900D09; --accent-color: beige;
 }
 .theme-purplerain{
     --primary-color: indigo; --secondary-color: purple; --text-color: linear-gradient(blue, black); --background-color: indigo; --accent-color: linear-gradient(blue, black);

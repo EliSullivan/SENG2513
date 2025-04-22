@@ -32,7 +32,7 @@ a:hover{
 
 .sidebar{
     background-color: var(--secondary-color);
-    color: white;
+    color: linear-gradient(grey, black);
 }
 
 .card{

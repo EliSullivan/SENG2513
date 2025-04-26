@@ -11,6 +11,7 @@ const Navbar = () => {
     const [searchInput, setSearchInput] = useState("");
     const [showPlaylists, setShowPlaylists] = useState(false);
     const [playlists, setPlaylists] = useState([]);
+    const [currentSong, setCurrentSong] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,6 +30,24 @@ const Navbar = () => {
         } catch (error) {
             console.error('Error fetching playlists:', error);
         }
+    };
+
+    const handleSongSelect = (song) => {
+        console.log("Selected song:", song);
+        
+        fetch(`/api/getApiSongDetailsById/${song.id}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(trackData => {
+            setCurrentSong(trackData);
+          })
+          .catch(error => {
+            console.error("Error fetching song details:", error);
+          });
     };
 
     const handleSearchSubmit = (e) => {
@@ -134,9 +153,11 @@ const Navbar = () => {
                     <Routes>
                         <Route path="*" element={<Home />} />
                         <Route path="/Songs" element={<Songs />} />
-                        <Route path="/search" element={<Search />} />
+                        <Route path="/search" element={<Search onSongSelect={handleSongSelect} />} />
                     </Routes>
-                    <SongUI />
+                    <div className="songUI-container">
+                        <SongUI currentSong={currentSong} /> 
+                    </div>
                 </div>
             </div>
         </>

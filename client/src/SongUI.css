@@ -4,7 +4,8 @@ div .container{
     float: right;
     position: fixed;
     left: 55%;
-    top: 20%
+    top: 20%;
+    font-size: .7rem;
 }
 
 div .song{

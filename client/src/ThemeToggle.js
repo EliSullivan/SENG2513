@@ -2,7 +2,7 @@ import react, {useState, useEffect} from 'react';
 import './ThemeColor.css';
 
 
-const Themes= [
+const themes= [
     {id:'default', name:'Default', color:'#3498db'},
     {id:'dark', name:'Dark', color:'black'},
     {id:'lemon', name:'Lemon', color:'yellow'},

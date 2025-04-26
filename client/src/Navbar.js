@@ -8,13 +8,20 @@ import Search from "./Search";
 
 const Navbar = () => {
     const [searchInput, setSearchInput] = useState("");
+    const [currentSong, setCurrentSong] = useState(null);
     const navigate = useNavigate();
+
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         if (searchInput.trim()) {
             // navigates to search page
             navigate(`/search?q=${encodeURIComponent(searchInput)}`);
         }
+    };
+
+    const handleSongSelect = (song) => {
+        console.log("Selected song:", song);
+        setCurrentSong(song);
     };
 
     return (
@@ -25,9 +32,9 @@ const Navbar = () => {
                         <li><Link to="/">Home</Link></li>
                         <li>
                             <form onSubmit={handleSearchSubmit}>
-                                <input 
-                                    type="text" 
-                                    name="search" 
+                                <input
+                                    type="text"
+                                    name="search"
                                     placeholder="Search"
                                     value={searchInput}
                                     onChange={(e) => setSearchInput(e.target.value)}
@@ -38,12 +45,21 @@ const Navbar = () => {
                         <li><Link to="/Songs">Library</Link></li>
                     </ul>
                 </nav>
-                <Routes>
-                    <Route path="*" element={<Home />} />
-                    <Route path="/Songs" element={<Songs />} />
-                    <Route path="/search" element={<Search />} />
-                </Routes>
-                <SongUI />
+                <div className="content-container">
+                    <div className="main-content">
+                        <Routes>
+                            <Route path="*" element={<Home />} />
+                            <Route path="/Songs" element={<Songs />} />
+                            <Route 
+                                path="/search" 
+                                element={<Search onSongSelect={handleSongSelect} />} 
+                            />
+                        </Routes>
+                    </div>
+                    <div className="player-container">
+                        <SongUI currentSong={currentSong} />
+                    </div>
+                </div>
             </div>
         </>
     );

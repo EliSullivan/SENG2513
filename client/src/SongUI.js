@@ -6,17 +6,14 @@ const SongUI = ({ currentSong }) => {
     const [audioElement, setAudioElement] = useState(null);
     
     useEffect(() => {
-        // Get the audio element once the component is mounted
         const audio = document.getElementById('songNowPlaying');
         setAudioElement(audio);
         
-        // Setup event listeners for the audio element
         if (audio) {
             audio.addEventListener('ended', () => setIsPlaying(false));
             audio.addEventListener('pause', () => setIsPlaying(false));
             audio.addEventListener('play', () => setIsPlaying(true));
             
-            // Cleanup listeners when component unmounts
             return () => {
                 audio.removeEventListener('ended', () => setIsPlaying(false));
                 audio.removeEventListener('pause', () => setIsPlaying(false));
@@ -25,11 +22,9 @@ const SongUI = ({ currentSong }) => {
         }
     }, []);
     
-    // Update audio source when currentSong changes
     useEffect(() => {
         if (currentSong && audioElement) {
             audioElement.src = currentSong.audioUrl;
-            // Auto play the song when selected
             audioElement.play()
                 .then(() => setIsPlaying(true))
                 .catch(err => console.error("Error playing audio:", err));

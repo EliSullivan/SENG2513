@@ -5,6 +5,7 @@ const app = express();
 import cors from "cors";
 const CORS = cors();
 app.use(CORS);
+app.use(express.json());
 const PORT = 3001;
 import User from './models/user.js';
 import Song from './models/song.js';
@@ -136,22 +137,151 @@ app.get("/api/song", async (req, res) => {
   }
 });
 
-/*
-app.get("/api/search", async (req, res) => {
+app.get("/api/playlist", async (req, res) => {
   try {
-    const searchResults = await getSearchResults();
-    
-    return res.json(searchResults);
+    const playlists = await Playlist.findAll();
+    return res.json(playlists);
   } catch (error) {
-    console.error("Error in /api/search:", error);
-    return res.status(500).json({ error: "Failed to fetch search results" });
+    console.error("Error fetching playlists:", error);
+    return res.status(500).json({ error: "Failed to fetch playlists" });
   }
 });
-*/
-app.get("/api/playlist", async (req, res) => {
-  // Find all playlists
-    const playlist = await Playlist.findAll();
-  return res.json(playlist);
-})
+
+app.get("/api/playlist/:id", async (req, res) => {
+  try {
+    const playlistId = req.params.id;
+    const playlist = await Playlist.findByPk(playlistId);
+    
+    if (!playlist) {
+      return res.status(404).json({ error: "Playlist not found" });
+    }
+    
+    return res.json(playlist);
+  } catch (error) {
+    console.error("Error fetching playlist:", error);
+    return res.status(500).json({ error: "Failed to fetch playlist" });
+  }
+});
+
+// Create a new playlist
+app.post("/api/playlist", async (req, res) => {
+  try {
+    const { title, songsInPlaylist } = req.body;
+    
+    if (!title) {
+      return res.status(400).json({ error: "Playlist title is required" });
+    }
+    
+    const newPlaylist = await Playlist.create({
+      title,
+      songsInPlaylist: songsInPlaylist || []
+    });
+    
+    return res.status(201).json(newPlaylist);
+  } catch (error) {
+    console.error("Error creating playlist:", error);
+    return res.status(500).json({ error: "Failed to create playlist" });
+  }
+});
+
+// Update a playlist
+app.put("/api/playlist/:id", async (req, res) => {
+  try {
+    const playlistId = req.params.id;
+    const { title, songsInPlaylist } = req.body;
+    
+    const playlist = await Playlist.findByPk(playlistId);
+    
+    if (!playlist) {
+      return res.status(404).json({ error: "Playlist not found" });
+    }
+    
+    if (title !== undefined) playlist.title = title;
+    if (songsInPlaylist !== undefined) playlist.songsInPlaylist = songsInPlaylist;
+    
+    await playlist.save();
+    
+    return res.json(playlist);
+  } catch (error) {
+    console.error("Error updating playlist:", error);
+    return res.status(500).json({ error: "Failed to update playlist" });
+  }
+});
+
+// Delete a playlist
+app.delete("/api/playlist/:id", async (req, res) => {
+  try {
+    const playlistId = req.params.id;
+    const playlist = await Playlist.findByPk(playlistId);
+    
+    if (!playlist) {
+      return res.status(404).json({ error: "Playlist not found" });
+    }
+    
+    await playlist.destroy();
+    
+    return res.json({ message: "Playlist deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting playlist:", error);
+    return res.status(500).json({ error: "Failed to delete playlist" });
+  }
+});
+
+// Add a song to a playlist
+app.post("/api/playlist/:id/songs", async (req, res) => {
+  try {
+    const playlistId = req.params.id;
+    const { songId } = req.body;
+    
+    if (!songId) {
+      return res.status(400).json({ error: "Song ID is required" });
+    }
+    
+    const playlist = await Playlist.findByPk(playlistId);
+    
+    if (!playlist) {
+      return res.status(404).json({ error: "Playlist not found" });
+    }
+
+    const currentSongs = playlist.songsInPlaylist;
+    
+    // Check if song already exists in playlist
+    if (currentSongs.includes(songId)) {
+      return res.status(400).json({ error: "Song already exists in playlist" });
+    }
+    
+    playlist.songsInPlaylist = [...currentSongs, songId];
+    await playlist.save();
+    
+    return res.json(playlist);
+  } catch (error) {
+    console.error("Error adding song to playlist:", error);
+    return res.status(500).json({ error: "Failed to add song to playlist" });
+  }
+});
+
+app.delete("/api/playlist/:id/songs/:songId", async (req, res) => {
+  try {
+    const playlistId = req.params.id;
+    const songId = req.params.songId;
+    
+    const playlist = await Playlist.findByPk(playlistId);
+    
+    if (!playlist) {
+      return res.status(404).json({ error: "Playlist not found" });
+    }
+    
+    // Filter out the song to remove
+    const currentSongs = playlist.songsInPlaylist;
+    playlist.songsInPlaylist = currentSongs.filter(id => id !== songId);
+    
+    await playlist.save();
+    
+    return res.json(playlist);
+  } catch (error) {
+    console.error("Error removing song from playlist:", error);
+    return res.status(500).json({ error: "Failed to remove song from playlist" });
+  }
+});
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

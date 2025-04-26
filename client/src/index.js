@@ -10,14 +10,13 @@ root.render(
   <React.StrictMode>
     <div>
       <header>
-        <h1>Music Player</h1>
         <div></div>
       </header>
       <BrowserRouter>
         <App />
       </BrowserRouter>
       <footer>
-        <p>&copy; 2025 Music Player</p>
+        <p class="copyright">&copy; 2025 Music Player</p>
       </footer>
     </div>
 

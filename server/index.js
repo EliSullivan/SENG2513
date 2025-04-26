@@ -9,6 +9,7 @@ const PORT = 3001;
 import User from './models/user.js';
 import Song from './models/song.js';
 import Playlist from './models/playlist.js';
+import { getApiSongDetailsById } from './models/index.js';
 import { syncModels, getSongFromDB, apiHeaders } from "./models/index.js";
 
 syncModels();
@@ -133,6 +134,29 @@ app.get("/api/song", async (req, res) => {
   } catch (error) {
     console.error("Error in /api/song:", error);
     return res.status(500).json({ error: "Failed to fetch songs" });
+  }
+});
+
+
+//this is what the client side can access
+app.get("/api/getApiSongDetailsById/:id", async (req, res) => {
+  try {
+    const id = req.params.id;  // Changed from req.query.id
+    
+    if (!id) {
+      return res.status(400).json({ error: 'Song ID is required' });
+    }
+    
+    const trackData = await getApiSongDetailsById(id);
+    
+    if (!trackData) {
+      return res.status(404).json({ error: 'Song not found' });
+    }
+    
+    res.json(trackData);
+  } catch (error) {
+    console.error('Error fetching song details:', error.message);
+    res.status(500).json({ error: 'Failed to fetch song details' });
   }
 });
 

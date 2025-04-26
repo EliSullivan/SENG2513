@@ -24,7 +24,7 @@ const SongUI = ({ currentSong }) => {
     
     useEffect(() => {
         if (currentSong && audioElement) {
-            audioElement.src = currentSong.audioUrl;
+            audioElement.src = currentSong.previewUrl;
             audioElement.play()
                 .then(() => setIsPlaying(true))
                 .catch(err => console.error("Error playing audio:", err));
@@ -57,7 +57,7 @@ const SongUI = ({ currentSong }) => {
                 
                
                 <h2 id="title">{currentSong?.title || "Title"}</h2>
-                <h3 id="artist">{currentSong?.artists || "Artist"}</h3>
+                <h3 id="artist">{currentSong?.artist || "Artist"}</h3>
                 <button
                     type="button"
                     onClick={togglePlayPause}

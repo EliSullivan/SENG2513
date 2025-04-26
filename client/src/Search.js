@@ -5,8 +5,8 @@ import "./SongUI.css";
 
 const Search = ({ onSongSelect }) => {
   const [searchResults, setSearchResults] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true); //initially true
+  const [error, setError] = useState("");
   const location = useLocation();
   
   const playSong = (track) => {
@@ -75,7 +75,7 @@ const Search = ({ onSongSelect }) => {
                 <button
                   className="play-song-button"
                   onClick={() => playSong(track)}
-                >play
+                >PLAY
                 </button>
               </div>
             </div>

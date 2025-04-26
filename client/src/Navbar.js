@@ -8,7 +8,7 @@ import Search from "./Search";
 
 const Navbar = () => {
     const [searchInput, setSearchInput] = useState("");
-    const [currentSong, setCurrentSong] = useState(null);
+    const [currentSong, setCurrentSong] = useState("");
     const navigate = useNavigate();
 
     const handleSearchSubmit = (e) => {
@@ -19,10 +19,24 @@ const Navbar = () => {
         }
     };
 
-    const handleSongSelect = (song) => {
-        console.log("Selected song:", song);
-        setCurrentSong(song);
-    };
+
+const handleSongSelect = (song) => {
+    console.log("Selected song:", song);
+    
+    fetch(`/api/getApiSongDetailsById/${song.id}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(trackData => {
+        setCurrentSong(trackData);
+      })
+      .catch(error => {
+        console.error("Error fetching song details:", error);
+      });
+};
 
     return (
         <>
@@ -56,8 +70,8 @@ const Navbar = () => {
                             />
                         </Routes>
                     </div>
-                    <div className="player-container">
-                        <SongUI currentSong={currentSong} />
+                    <div className="songUI-container">
+                        <SongUI currentSong={currentSong} /> 
                     </div>
                 </div>
             </div>

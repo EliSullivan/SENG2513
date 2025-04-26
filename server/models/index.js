@@ -36,6 +36,38 @@ const getSongFromDB = async () => {
   return await Song.findAll();
 };
 
+const getApiSongDetailsById = async (id) => {
+  const callOptions = {
+    ...songDetailsOptions,
+    params: {
+      ids: id
+    }
+  };
+  try {
+    const response = await axios.request(callOptions);
+    const track = response.data?.data?.tracks?.[0];
+    
+    if (track) {
+      const trackData = {
+        id: track.id,
+        title: track.name,
+        runtime: track.duration_ms,
+        artist: track.artists?.map(artist => artist.name).join(', '),
+        album: track.album.name,
+        albumCoverUrl: track.album.images[0]?.url || null,
+        previewUrl: track.preview_url || null
+      };
+      
+      await Song.upsert(trackData);
+      return trackData;
+    }
+    return null;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
 const addToSongDetailsQueue = (newSong) => {
   if (detailsIds === "") {
     detailsIds = newSong;
@@ -113,5 +145,5 @@ const syncModels = async () => {
 
 export {
   sequelize, User, Song, Playlist, syncModels, getSongFromDB, fetchData, 
-  addToSongDetailsQueue, clearSongDetailsQueue, apiHeaders
+  addToSongDetailsQueue, clearSongDetailsQueue, getApiSongDetailsById, apiHeaders
 };

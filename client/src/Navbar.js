@@ -6,6 +6,7 @@ import Songs from "./Songs";
 import SongUI from "./SongUI";
 import Search from "./Search";
 import PlaylistSection from "./PlaylistSection";
+import PlaylistSelect from "./PlaylistSelect";
 
 const Navbar = () => {
     const [searchInput, setSearchInput] = useState("");
@@ -58,6 +59,13 @@ const Navbar = () => {
         }
     };
 
+const [selectedSong, setSelectedSong] = useState(null);
+const [showPlaylistModal, setShowPlaylistModal] = useState(false);
+
+const handleAddToPlaylist = (song) => {
+  setSelectedSong(song);
+  setShowPlaylistModal(true);
+};
     const togglePlaylistSection = () => {
         console.log("Toggle playlist clicked");
         setShowPlaylists(prevState => !prevState);
@@ -107,6 +115,9 @@ const Navbar = () => {
         }
     };
 
+
+
+    
     return (
         <>
             <div className="app-container">
@@ -153,7 +164,20 @@ const Navbar = () => {
                     <Routes>
                         <Route path="*" element={<Home />} />
                         <Route path="/Songs" element={<Songs />} />
-                        <Route path="/search" element={<Search onSongSelect={handleSongSelect} />} />
+                        <Route path="/search" element={<>
+    <Search 
+      onSongSelect={handleSongSelect} 
+      onAddToPlaylist={handleAddToPlaylist} 
+    />
+    
+    {showPlaylistModal && (
+      <PlaylistSelect 
+      song={selectedSong}
+      onClose={() => setShowPlaylistModal(false)}
+      /*onCreatePlaylist={handleCreatePlaylist}*/
+      />
+    )}
+  </>} />
                     </Routes>
                     <div className="songUI-container">
                         <SongUI currentSong={currentSong} /> 

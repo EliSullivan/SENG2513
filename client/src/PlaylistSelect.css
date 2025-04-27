@@ -1,0 +1,135 @@
+.playlist-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .playlist-modal {
+    background: white;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+  }
+  
+  .playlist-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .playlist-modal-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+  
+  .close-button {
+    border: none;
+    background: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+  }
+  
+  .playlist-modal-content {
+    padding: 20px;
+  }
+  
+  .song-info {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .song-info h3 {
+    margin: 0 0 5px 0;
+  }
+  
+  .song-info p {
+    margin: 0;
+    color: #666;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  
+  .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  .cancel-button, .add-button, .create-playlist-button {
+    padding: 10px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .cancel-button {
+    background: none;
+    border: 1px solid #ddd;
+  }
+  
+  .add-button {
+    background-color: #1db954;
+    color: white;
+    border: none;
+  }
+  
+  .add-button:disabled {
+    background-color: #8ce3ad;
+    cursor: not-allowed;
+  }
+  
+  .create-playlist-button {
+    background-color: #1db954;
+    color: white;
+    border: none;
+    margin-top: 10px;
+  }
+  
+  .loading, .error-message, .success-message, .no-playlists {
+    text-align: center;
+    padding: 20px 0;
+  }
+  
+  .error-message {
+    color: #e74c3c;
+  }
+  
+  .success-message {
+    color: #2ecc71;
+    margin: 10px 0;
+  }
+  
+  .no-playlists {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }

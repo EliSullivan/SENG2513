@@ -1,11 +1,16 @@
 .search-results-container{
     height: 100vh;
     overflow-y: scroll;
-    padding-left: 15px;
+    padding-left: 0px;
+    position: fixed;
+    width: 20%;
+    left: 40%;
+    align-items: center;
+    text-align: center;
+
+
 }
 
 .track-item{
-    align-items: center;
-    text-align: center;
-    max-width: 58%;
+    max-width: 100%;
 }

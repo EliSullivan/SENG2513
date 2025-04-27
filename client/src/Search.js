@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import "./Search.css";
 import "./SongUI.css";
 
-const Search = ({ onSongSelect }) => {
+const Search = ({ onSongSelect, onAddToPlaylist }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(true); //initially true
   const [error, setError] = useState("");
@@ -12,6 +12,12 @@ const Search = ({ onSongSelect }) => {
   const playSong = (track) => {
     if (onSongSelect) {
       onSongSelect(track);
+    }
+  };
+
+  const addToPlaylist = (track) => {
+    if (onAddToPlaylist) {
+      onAddToPlaylist(track);
     }
   };
 
@@ -77,6 +83,8 @@ const Search = ({ onSongSelect }) => {
                   onClick={() => playSong(track)}
                 >PLAY
                 </button>
+                <button className="add-to-playlist-button"
+        onClick={() => addToPlaylist(track)}>Add to playlist</button>
               </div>
             </div>
           ))}

@@ -1,7 +1,75 @@
-.songdata{
-    padding-left: 40px;
-    width: 40%;
-    height: 100%;
-    float: left;
-    overflow-x: scroll;
-}
+.songs-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+  }
+  
+  .songdata {
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 20px;
+    overflow-y: auto;
+    height: auto;
+  }
+  
+  .songs-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    text-align: left;
+  }
+  
+  .song-item {
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .song-item p {
+    margin: 8px 0;
+  }
+  
+  .album-cover-container {
+    margin: 10px 0;
+    text-align: center;
+  }
+  
+  .album-cover {
+    max-width: 200px;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  
+  .loading-container,
+  .error-container {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #555;
+  }
+  
+  .error-container {
+    color: #d32f2f;
+  }
+  
+  @media (max-width: 768px) {
+    .songdata {
+      width: 95%;
+      padding: 10px;
+    }
+    
+    .song-item {
+      padding: 10px;
+    }
+    
+    .album-cover {
+      max-width: 150px;
+    }
+  }

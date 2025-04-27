@@ -7,8 +7,6 @@
     left: 40%;
     align-items: center;
     text-align: center;
-
-
 }
 
 .track-item{
@@ -26,7 +24,9 @@
     align-items: center;
 }
 
-.add-to-playlist-button{
+
+
+.add-to-playlist-button, .add-to-queue-button{
     margin-top: 15px;
     font-size: 1rem;
     padding: 3px;
@@ -34,8 +34,11 @@
     padding-right: 5px;
     background-color: rgb(132, 132, 132);
     border-radius: 9px;
+    border: none;
+    width: 120px;
 }
-.add-to-playlist-button:hover{
+
+.add-to-playlist-button:hover, .add-to-queue-button:hover{
     color: purple;
 }
 

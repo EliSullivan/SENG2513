@@ -37,21 +37,18 @@ const Songs = () => {
           <ul className="songs-list">
             {songs.map((song) => (
               <li key={song.id} className="song-item">
-                <p><strong>Title:</strong> {song.title}</p>
-                <p><strong>Artist:</strong> {song.artist}</p>
-                <p><strong>Album:</strong> {song.album}</p>
-                <p><strong>ID:</strong> {song.id}</p>
-                {song.albumCoverUrl && (
-                  <div className="album-cover-container">
-                    <p><strong>Album Cover:</strong></p>
-                    <img
+                <img
                       src={song.albumCoverUrl}
                       alt={`${song.album} cover`}
                       className="album-cover"
                     />
+                <p><strong>Title:</strong> {song.title}</p>
+                <p><strong>Artist:</strong> {song.artist}</p>
+                <p><strong>Album:</strong> {song.album}</p>
+                {song.albumCoverUrl && (
+                  <div className="album-cover-container">
                   </div>
                 )}
-                <hr />
               </li>
             ))}
           </ul>

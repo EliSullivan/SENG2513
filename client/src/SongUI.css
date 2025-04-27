@@ -4,7 +4,7 @@ div .container{
     float: right;
     position: fixed;
     left: 55%;
-    top: 20%;
+    top: 15%;
     font-size: .7rem;
 }
 
@@ -59,17 +59,68 @@ div .song{
 }
 
 div .queue{
-    font-size: .5rem;
+    font-size: 1rem;
     float: top;
     margin: 0 auto;
-    background-color: #484848;
+    background-color:#484848;
     max-width: 50%;
-    max-height: 15%;
+    max-height: 25%;
     text-align: left;
+}
+h3{
+  margin-bottom: 0;
+}
+p{
+  margin: 0;
 }
 
 img{
     margin: 0 auto;
     max-width: 50%;
     max-height: 50%;
+}
+.queue {
+  margin-top: 20px;
+}
+
+.queue h1 {
+  display: flex;
+  align-items: center;
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+}
+
+.queue-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.queue-album-cover {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.skip-button {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-left: 10px;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.skip-button:hover {
+  opacity: 1;
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
 }

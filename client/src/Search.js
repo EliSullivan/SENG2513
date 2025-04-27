@@ -3,12 +3,12 @@ import { useLocation } from "react-router-dom";
 import "./Search.css";
 import "./SongUI.css";
 
-const Search = ({ onSongSelect, onAddToPlaylist }) => {
+const Search = ({ onSongSelect, onAddToPlaylist, onAddToQueue }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(true); //initially true
   const [error, setError] = useState("");
   const location = useLocation();
-  
+ 
   const playSong = (track) => {
     if (onSongSelect) {
       onSongSelect(track);
@@ -21,19 +21,26 @@ const Search = ({ onSongSelect, onAddToPlaylist }) => {
     }
   };
 
+
+  const addToQueue = (track) => {
+    if (onAddToQueue) {
+      onAddToQueue(track);
+    }
+  };
+ 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const searchQuery = queryParams.get('q');
-    
+   
     if (!searchQuery) {
       setSearchResults([]);
       setLoading(false);
       return;
     }
-    
+   
     setLoading(true);
     setError(null);
-    
+   
     fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`)
       .then((res) => {
         console.log("Response status:", res.status);
@@ -66,7 +73,7 @@ const Search = ({ onSongSelect, onAddToPlaylist }) => {
       {searchResults.length > 0 ? (
         <div className="results-list">
           {searchResults.map((track) => (
-            <div className="track-item" key={track.id}>
+            <div className="track-item" key={track.id} id={`track-${track.id}`}>
               <div className="track-info">
                 <h3>{track.title}</h3>
                 <p>Artist: {track.artists}</p>
@@ -78,13 +85,28 @@ const Search = ({ onSongSelect, onAddToPlaylist }) => {
                     className="album-cover"
                   />
                 )}
-                <button
-                  className="play-song-button"
-                  onClick={() => playSong(track)}
-                >
-                </button>
-                <button className="add-to-playlist-button"
-        onClick={() => addToPlaylist(track)}>Add to playlist</button>
+                <div className="track-actions">
+                  <button
+                    className="play-song-button"
+                    onClick={() => playSong(track)}
+                    title="Play now"
+                  >
+                  </button>
+                  <button 
+                    className="add-to-queue-button"
+                    onClick={() => addToQueue(track)}
+                    title="Add to queue"
+                  >
+                    Add to queue
+                  </button>
+                  <button 
+                    className="add-to-playlist-button"
+                    onClick={() => addToPlaylist(track)}
+                    title="Add to playlist"
+                  >
+                    Add to playlist
+                  </button>
+                </div>
               </div>
             </div>
           ))}

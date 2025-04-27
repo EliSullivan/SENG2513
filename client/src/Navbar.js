@@ -1,5 +1,5 @@
 import './Navbar.css';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import Home from "./Home";
 import Songs from "./Songs";
@@ -7,12 +7,15 @@ import SongUI from "./SongUI";
 import Search from "./Search";
 import PlaylistSection from "./PlaylistSection";
 import PlaylistSelect from "./PlaylistSelect";
+import Queue from "./Queue"; 
 
 const Navbar = () => {
     const [searchInput, setSearchInput] = useState("");
     const [showPlaylists, setShowPlaylists] = useState(false);
     const [playlists, setPlaylists] = useState([]);
-    const [currentSong, setCurrentSong] = useState("");
+    const [currentSong, setCurrentSong] = useState(null);
+    const [queue, setQueue] = useState([]); 
+    const [showQueue, setShowQueue] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -51,28 +54,103 @@ const Navbar = () => {
           });
     };
 
+    // Queue management functions
+    const addToQueue = (song) => {
+        console.log("Adding to queue:", song);
+        setQueue(prevQueue => [...prevQueue, song]);
+    };
+
+    const removeFromQueue = (index) => {
+        setQueue(prevQueue => prevQueue.filter((_, i) => i !== index));
+    };
+
+    const clearQueue = () => {
+        setQueue([]);
+    };
+
+    // Function to handle when a song ends - play next in queue
+    // Using useCallback to avoid recreating this function on each render
+    const playNextInQueue = useCallback(() => {
+        if (queue.length > 0) {
+            const nextSong = queue[0];
+            console.log("Playing next song from queue:", nextSong);
+            
+            // Get detailed song info if needed
+            fetch(`/api/getApiSongDetailsById/${nextSong.id}`)
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+              })
+              .then(trackData => {
+                setCurrentSong(trackData);
+                // Remove the song from the queue
+                setQueue(prevQueue => prevQueue.slice(1));
+              })
+              .catch(error => {
+                console.error("Error fetching next song details:", error);
+                // If there's an error, still remove the song and try to play it directly
+                setCurrentSong(nextSong);
+                setQueue(prevQueue => prevQueue.slice(1));
+              });
+        } else {
+            setCurrentSong(null);
+        }
+    }, [queue]);
+
+    const playFromQueue = (index) => {
+        if (index >= 0 && index < queue.length) {
+            const selectedSong = queue[index];
+            
+            // Get detailed song info
+            fetch(`/api/getApiSongDetailsById/${selectedSong.id}`)
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+              })
+              .then(trackData => {
+                setCurrentSong(trackData);
+                // Remove the selected song from the queue
+                setQueue(prevQueue => prevQueue.filter((_, i) => i !== index));
+              })
+              .catch(error => {
+                console.error("Error fetching selected song details:", error);
+                // If there's an error, still try to play it directly
+                setCurrentSong(selectedSong);
+                setQueue(prevQueue => prevQueue.filter((_, i) => i !== index));
+              });
+        }
+    };
+
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         if (searchInput.trim()) {
-            // navigates to search page
             navigate(`/search?q=${encodeURIComponent(searchInput)}`);
         }
     };
 
-const [selectedSong, setSelectedSong] = useState(null);
-const [showPlaylistModal, setShowPlaylistModal] = useState(false);
+    const [selectedSong, setSelectedSong] = useState(null);
+    const [showPlaylistModal, setShowPlaylistModal] = useState(false);
 
-const handleAddToPlaylist = (song) => {
-  setSelectedSong(song);
-  setShowPlaylistModal(true);
-};
+    const handleAddToPlaylist = (song) => {
+      setSelectedSong(song);
+      setShowPlaylistModal(true);
+    };
+    
     const togglePlaylistSection = () => {
         console.log("Toggle playlist clicked");
         setShowPlaylists(prevState => !prevState);
-        // Refresh playlists when opening the playlist section
         if (!showPlaylists) {
             fetchPlaylists();
         }
+    };
+
+    const toggleQueueSection = () => {
+        console.log("Toggle queue clicked");
+        setShowQueue(prevState => !prevState);
     };
 
     const handleCreatePlaylist = async (playlistName) => {
@@ -87,7 +165,6 @@ const handleAddToPlaylist = (song) => {
             });
 
             if (response.ok) {
-                // Refresh playlists after creating a new one
                 fetchPlaylists();
             } else {
                 console.error('Failed to create playlist');
@@ -105,7 +182,6 @@ const handleAddToPlaylist = (song) => {
             });
 
             if (response.ok) {
-                // Refresh playlists after deletion
                 fetchPlaylists();
             } else {
                 console.error('Failed to delete playlist');
@@ -114,8 +190,6 @@ const handleAddToPlaylist = (song) => {
             console.error('Error deleting playlist:', error);
         }
     };
-
-
 
     
     return (
@@ -145,7 +219,16 @@ const handleAddToPlaylist = (song) => {
                                     onClick={togglePlaylistSection}
                                     type="button"
                                 >
-                                    Playlists {showPlaylists}
+                                    Playlists
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                    className="queue-toggle"
+                                    onClick={toggleQueueSection}
+                                    type="button"
+                                >
+                                    Queue
                                 </button>
                             </li>
                         </ul>
@@ -159,27 +242,41 @@ const handleAddToPlaylist = (song) => {
                         onDeletePlaylist={handleDeletePlaylist}
                     />
                 )}
+
+                {showQueue && (
+                    <Queue 
+                        queue={queue}
+                        onRemoveSong={removeFromQueue}
+                        onClearQueue={clearQueue}
+                        onPlaySong={playFromQueue}
+                    />
+                )}
                 
-                <div className={`main-content ${showPlaylists ? 'with-playlist-open' : ''}`}>
+                <div className={`main-content ${showPlaylists || showQueue ? 'with-section-open' : ''}`}>
                     <Routes>
-                        <Route path="*" element={<Home />} />
-                        <Route path="/Songs" element={<Songs />} />
+                        <Route path="/" element={<Home />} />
+                        <Route path="/Songs" element={<Songs onAddToQueue={addToQueue} />} />
                         <Route path="/search" element={<>
-    <Search 
-      onSongSelect={handleSongSelect} 
-      onAddToPlaylist={handleAddToPlaylist} 
-    />
-    
-    {showPlaylistModal && (
-      <PlaylistSelect 
-      song={selectedSong}
-      onClose={() => setShowPlaylistModal(false)}
-      />
-    )}
-  </>} />
+                            <Search 
+                                onSongSelect={handleSongSelect} 
+                                onAddToPlaylist={handleAddToPlaylist}
+                                onAddToQueue={addToQueue}
+                            />
+                            
+                            {showPlaylistModal && (
+                                <PlaylistSelect 
+                                    song={selectedSong}
+                                    onClose={() => setShowPlaylistModal(false)}
+                                />
+                            )}
+                        </>} />
                     </Routes>
                     <div className="songUI-container">
-                        <SongUI currentSong={currentSong} /> 
+                        <SongUI 
+                            currentSong={currentSong} 
+                            queue={queue}
+                            onSongEnd={playNextInQueue}
+                        /> 
                     </div>
                 </div>
             </div>

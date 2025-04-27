@@ -77,13 +77,8 @@
   margin-left: 550px; /* Navbar width (250px) + Playlist section width (300px) */
 }
 
-button {
-  position: relative;
-  z-index: 100;
-  pointer-events: auto !important;
-}
 
-.playlist-toggle {
+.playlist-toggle, .queue-toggle {
   background: none;
   border: none;
   color: white;
@@ -98,7 +93,7 @@ button {
   pointer-events: auto !important;
 }
 
-.playlist-toggle:hover {
+.playlist-toggle:hover, .queue-toggle:hover {
   color: #f00000;
 }
 
@@ -121,5 +116,28 @@ button {
     left: 0;
     top: 0;
     z-index: 200;
+  }
+}
+
+.with-section-open {
+  margin-right: 300px;
+  transition: margin 0.3s ease;
+}
+
+.songUI-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+
+@media screen and (max-width: 768px) {
+  .with-section-open {
+    margin-right: 0;
+  }
+  
+  .queue-panel,
+  .playlist-section {
+    width: 100%;
+    z-index: 1001;
   }
 }

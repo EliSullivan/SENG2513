@@ -121,14 +121,6 @@ const PlaylistSelect = ({ song, onClose }) => {
                   
                   <div className="button-group">
                     <button 
-                      type="button" 
-                      className="cancel-button"
-                      onClick={onClose}
-                      disabled={isAdding}
-                    >
-                      Cancel
-                    </button>
-                    <button 
                       type="submit" 
                       className="add-button"
                       disabled={isAdding || !selectedPlaylistId}

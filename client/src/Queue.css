@@ -1,0 +1,140 @@
+.queue-panel {
+    background-color: #333;
+    color: white;
+    width: 300px;
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    height: calc(100vh - 60px);
+    padding: 16px;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+  }
+  
+  .queue-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #333;
+  }
+  
+  .queue-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  .clear-queue-button {
+    background-color: #e91e63;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+  }
+  
+  .clear-queue-button:hover {
+    background-color: #f06292;
+  }
+  
+  .clear-queue-button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+  }
+  
+  .empty-queue-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    text-align: center;
+    color: #999;
+    font-style: italic;
+  }
+  
+  .queue-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .queue-list-item {
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #333;
+    transition: background-color 0.2s;
+  }
+  
+  .queue-list-item:hover {
+    background-color: #1e1e1e;
+  }
+  
+  .queue-item-info {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    overflow: hidden;
+  }
+  
+  .queue-item-cover {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 12px;
+    border-radius: 4px;
+  }
+  
+  .queue-item-details {
+    overflow: hidden;
+  }
+  
+  .queue-item-details h3 {
+    margin: 0 0 5px 0;
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .queue-item-details p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #b3b3b3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .queue-item-controls {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+  }
+
+  
+  .play-now-button,
+  .remove-from-queue-button {
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 5px;
+    margin: 0 2px;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+  }
+  
+  .play-now-button:hover,
+  .remove-from-queue-button:hover {
+    opacity: 1;
+  }
+
+    

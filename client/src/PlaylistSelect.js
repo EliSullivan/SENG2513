@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './PlaylistSelect.css'; // You'll need to create this CSS file
+import './PlaylistSelect.css';
 
 const PlaylistSelect = ({ song, onClose }) => {
   const [playlists, setPlaylists] = useState([]);
@@ -9,7 +9,6 @@ const PlaylistSelect = ({ song, onClose }) => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  // Fetch user's playlists when component mounts
   useEffect(() => {
     const fetchPlaylists = async () => {
       try {
@@ -22,7 +21,6 @@ const PlaylistSelect = ({ song, onClose }) => {
         const data = await response.json();
         setPlaylists(data);
         
-        // Pre-select the first playlist if available
         if (data.length > 0) {
           setSelectedPlaylistId(data[0].id);
         }
@@ -68,7 +66,6 @@ const PlaylistSelect = ({ song, onClose }) => {
       
       setSuccess(`Added "${song.title}" to playlist!`);
       
-      // Close modal after a short delay to show success message
       setTimeout(() => {
         onClose();
       }, 1500);
@@ -143,9 +140,6 @@ const PlaylistSelect = ({ song, onClose }) => {
               ) : (
                 <div className="no-playlists">
                   <p>You don't have any playlists yet.</p>
-                  <button className="create-playlist-button" onClick={onClose}>
-                    Create a Playlist
-                  </button>
                 </div>
               )}
             </>

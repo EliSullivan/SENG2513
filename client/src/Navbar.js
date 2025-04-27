@@ -174,7 +174,6 @@ const handleAddToPlaylist = (song) => {
       <PlaylistSelect 
       song={selectedSong}
       onClose={() => setShowPlaylistModal(false)}
-      /*onCreatePlaylist={handleCreatePlaylist}*/
       />
     )}
   </>} />

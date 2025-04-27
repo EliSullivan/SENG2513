@@ -81,7 +81,7 @@ const Search = ({ onSongSelect, onAddToPlaylist }) => {
                 <button
                   className="play-song-button"
                   onClick={() => playSong(track)}
-                >PLAY
+                >
                 </button>
                 <button className="add-to-playlist-button"
         onClick={() => addToPlaylist(track)}>Add to playlist</button>

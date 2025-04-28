@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import './ThemeColor.css';
+import './ThemeToggle.css';
 
 const themes = [
-    {id:'default', name:'Default', color:'#3498db'},
+    {id:'default', name:'Default', color:'grey'},
     {id:'dark', name:'Dark', color:'black'},
     {id:'lemon', name:'Lemon', color:'yellow'},
-    {id:'bloodorange', name:'BloodOrange', color:'orange'},
+    {id:'bloodorange', name:'BloodOrange', color:'linear-gradient(orange, red)'},
     {id:'rose', name:'Rose', color:'#CC8899'},
     {id:'velvetred', name:'VelvetRed', color:'maroon'},
     {id:'purplerain', name:'Purple Rain', color:'indigo'},
@@ -22,8 +22,14 @@ function ThemeToggle() {
 
     // applies theme class to body
     useEffect(() => {
-        document.body.className = '';
+        document.body.classList.forEach(className => {
+            if (className.startsWith('theme-')){
+                document.body.classList.remove(className);
+            }
+        });
+
         document.body.classList.add(`theme-${currentTheme}`);
+
         localStorage.setItem('selectedTheme', currentTheme);
     }, [currentTheme]);
 
@@ -32,7 +38,7 @@ function ThemeToggle() {
     };
     
     return (
-        <div className="theme-toggle">
+        <div className="theme-switcher">
             <h3>Choose a Theme</h3>
             <div className="theme-buttons">
                 {themes.map((theme) => (

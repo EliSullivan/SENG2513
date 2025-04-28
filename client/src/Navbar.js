@@ -6,6 +6,8 @@ import Songs from "./Songs";
 import SongUI from "./SongUI";
 import Search from "./Search";
 import PlaylistSection from "./PlaylistSection";
+import './ThemeColor.css';
+import ThemeToggle from "./ThemeToggle";
 import PlaylistSelect from "./PlaylistSelect";
 import Queue from "./Queue"; 
 
@@ -17,6 +19,7 @@ const Navbar = () => {
     const [queue, setQueue] = useState([]); 
     const [showQueue, setShowQueue] = useState(false);
     const navigate = useNavigate();
+    const [showThemes, setShowThemes]= useState(false);
 
     useEffect(() => {
         fetchPlaylists();
@@ -191,7 +194,11 @@ const Navbar = () => {
         }
     };
 
-    
+        
+    const toggleThemeDropdown = () => {
+        setShowThemes(!showThemes);
+    };
+
     return (
         <>
             <div className="app-container">
@@ -231,8 +238,18 @@ const Navbar = () => {
                                     Queue
                                 </button>
                             </li>
+                            <li>
+                                <button onClick={toggleThemeDropdown} className="theme-toggle-btn">
+                                    Themes
+                                </button>
+                            </li>
                         </ul>
                     </div>
+                    {showThemes && (
+                    <div className="theme-dropdown">
+                        <ThemeToggle />
+                    </div>
+                )}
                 </nav>
                 
                 {showPlaylists && (

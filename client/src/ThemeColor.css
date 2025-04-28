@@ -1,54 +1,62 @@
-.theme-toggle{
-    padding: 20px; border-radius: 8px; margin: 20px 0;
-}
-.theme-buttons{
-    display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;
-}
-.theme-button{
-    width: 100px; height: 40px; border: none; border-radius: 20px; cursor: pointer; position: relative; transition: all 0.3s ease;
-}
-.theme-button:hover{
-    transform: translateY(-3px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-}
-.theme-button.active{
-        box-shadow: 0 0 0 3px #fff, 0 0 0 6px #000;
-}
-.theme-name{
-    Position: absolute; bottom: -25px; left: 0; right: 0; font-size: 12px; opacity: 0; transition: opacity 0.3s ease;
-}
-.theme-button:hover .theme-name{
-opacity: 1;
-}
-.current-theme{
-    margin-top: 25px; font-weight: bold;
-}
 .theme-default{
-    --primary-color: linear-gradient(grey, black); --secondary-color: #333333; --text-color: black; --background-color: #333333; --accent-color: grey;
+    --primary-color: rgb(42, 40, 40); --secondary-color: #858484; --text-color: black; --background-color: #333333; --accent-color: grey;
+    --navbar-bg: rgb(12, 10, 10); --navbar-text: rgb(212, 201, 201); --player-bg:grey; --player-control: red; --search-bg: white; --button-hover: blue; 
 }
 .theme-dark{
-    --primary-color: #2c3e50; --secondary-color: #34495e; --text-color: #ecf0f1; --background-color: #1a1a1a; --accent-color: #3498db;
+    --primary-color: #2c3e50; --secondary-color: #34495e; --text-color: green; --background-color: #1a1a1a; --accent-color: black;
+    --navbar-bg: black; --navbar-text: blue; --player-bg: #2c3e50; --player-control: white; --search-bg: black; --button-hover: red;
 }
 .theme-lemon{
     --primary-color: yellow; --secondary-color: lightyellow; --text-color: black; --background-color: yellow; --accent-color: #f39c12;
+    --navbar-bg: rgb(255, 255, 157); --navbar-text: black; --player-bg: rgb(253, 253, 223); --player-control: black; --search-bg: yellow; --button-hover: lightyellow;
 }
 .theme-bloodorange{
-    --primary-color: linear-gradient(orange, red); --secondary-color: darkorange; --text-color: black; --background-color: linear-gradient(red, orange); --accent-color: red;
+    --primary-color: rgb(255, 115, 0); --secondary-color: rgb(232, 29, 11); --text-color: black; --background-color: linear-gradient(red, orange); --accent-color: red;
+    --navbar-bg: rgb(244, 64, 40); 
 }
 .theme-rose{
-    --primary-color: pink; --secondary-color: #CC8899; --text-color: linear-gradient(grey, black); --background-color: #B57281; --accent-color: pink; 
+    --primary-color: pink; --secondary-color: #CC8899; --text-color: black; --background-color: #B57281; --accent-color: pink; 
 }
 .theme-velvetred{
     --primary-color: darkred; --secondary-color: maroon; --text-color: black; --background-color: #900D09; --accent-color: beige;
 }
 .theme-purplerain{
-    --primary-color: indigo; --secondary-color: purple; --text-color: linear-gradient(blue, black); --background-color: indigo; --accent-color: linear-gradient(blue, black);
+    --primary-color: indigo; --secondary-color: purple; --text-color: linear-gradient(to right, blue, black); --background-color: indigo; --accent-color: linear-gradient(to right, blue, black);
 }
 .theme-midnightblue{
-    --primary-color: #010445; --secondary-color: #040457; --text-color: linear-gradient(grey, black); --background-color: #02044A; --accent-color: #040457;
+    --primary-color: #010445; --secondary-color: #040457; --text-color: linear-gradient(to right, grey, black); --background-color: #02044A; --accent-color: #040457;
 }
 .theme-greenleaf{
-    --primary-color: darkgreen; --secondary-color: green; --text-color: linear-gradient(brown, black); --background-color: darkgreen; --accent-color: green;
+    --primary-color: darkgreen; --secondary-color: green; --text-color: linear-gradient(to right, brown, black); --background-color: darkgreen; --accent-color: green;
 }
 .theme-light{
-    --primary-color: #ffffff; --secondary-color: #bdc3c7; --text-color: linear-gradient(lightgrey, black); --background-color: white; --accent-color: lightgrey;
+    --primary-color: #ffffff; --secondary-color: #bdc3c7; --text-color: linear-gradient(to right, lightgrey, black); --background-color: white; --accent-color: lightgrey;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.navbar{
+    background-color: var(--navbar-bg);
+    color: var(--navbar-text);
+}
+.app-container button {
+    background-color: var(--primary-color);
+    color: var(--navbar-text);
+}
+.app-container button:hover{
+    background-color: var(--button-hover);
+}
+
+input[type="text"]{
+    background-color: var(--search-bg);
+    color: var(--text-color);
+    border: 1px solid var(--secondary-color);
+}
+
+.songUI-container{
+    background-color: var(--player-bg);
+    color: var(--text-color);
 }

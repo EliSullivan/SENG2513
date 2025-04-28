@@ -1,4 +1,3 @@
-//Mock all dependencies first
 jest.mock('axios');
 jest.mock('../config/database.js', () => ({
   sync: jest.fn().mockResolvedValue(true)
@@ -122,35 +121,5 @@ describe('Music App Service Tests', () => {
       await musicModule.syncModels();
       expect(musicModule.syncModels).toHaveBeenCalled();
     });
-  });
-});
-
-describe('API Integration Tests', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('should process the API response for song details', async () => {
-    const mockTrackData = {
-      id: 'track123',
-      title: 'Test Track',
-      runtime: 180000,
-      artist: 'Test Artist',
-      album: 'Test Album',
-      albumCoverUrl: 'https://example.com/image.jpg',
-      previewUrl: 'https://example.com/preview.mp3'
-    };
-    
-    musicModule.getApiSongDetailsById.mockResolvedValue(mockTrackData);
-    
-    const result = await musicModule.getApiSongDetailsById('track123');
-    
-    expect(result).toEqual(expect.objectContaining({
-      id: expect.any(String),
-      title: expect.any(String),
-      runtime: expect.any(Number),
-      artist: expect.any(String),
-      album: expect.any(String)
-    }));
   });
 });

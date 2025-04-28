@@ -39,7 +39,7 @@ function ThemeToggle() {
     
     return (
         <div className="theme-switcher">
-            <h3>Choose a Theme</h3>
+            <h3>Choose a Theme: </h3>
             <div className="theme-buttons">
                 {themes.map((theme) => (
                     <button

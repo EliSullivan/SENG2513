@@ -1,0 +1,68 @@
+.theme-toggle{
+    padding: 20px; border-radius: 8px; margin: 20px 0;
+}
+.theme-buttons{
+    display: flex; flex-wrap: wrap; gap: 25px; margin-bottom: 20px; justify-content: center;
+}
+.theme-button{
+    width: 25px; height: 25px; border: none; border-radius: 50%; cursor: pointer; position: relative; transition: all 0.3s ease; margin: 0 10px;
+}
+.theme-button:hover{
+    transform: translateY(-3px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+.theme-button.active{
+        box-shadow: 0 0 0 3px #fff, 0 0 0 6px #000;
+}
+.theme-name{
+    Position: absolute; bottom: -30px; left: 0; right: 0; font-size: 11px; opacity: 0; transition: opacity 0.2s ease 0.1s; text-align: center;
+}
+.theme-button:hover .theme-name{
+opacity: 1;
+}
+.current-theme{
+    margin-top: 30px; font-weight: bold;
+}
+.theme-toggle-btn{
+    background-color: var(--primary-color, #3498db);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.theme-toggle-btn:hover{
+    background-color: var(--accent);
+}
+.theme-dropdown{
+    position: absolute;
+    left: 250px;
+    top: 140px;
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    padding: 10px;
+    width: 150px;
+    height: auto;
+    max-height: 300px;
+    overflow-y: auto;
+
+}
+.theme-dropdown .theme-switcher {
+    padding: 10px;
+    max-width: 380px;
+}
+.theme-dropdown .theme-buttons{
+    justify-content: center;
+}
+@media (max-width: 768px){
+    .theme-dropdown{
+        right: 10px;
+        left: 10px;
+        width: calc(100% - 20px);
+    }
+
+    .theme-dropdown .theme-button{
+        width: 60px;
+    }
+}

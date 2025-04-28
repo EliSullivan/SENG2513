@@ -239,7 +239,10 @@ const Navbar = () => {
                                 </button>
                             </li>
                             <li>
-                                <button onClick={toggleThemeDropdown} className="theme-toggle-btn">
+                                <button 
+                                    className="theme-toggle-btn"
+                                    onClick={toggleThemeDropdown}
+                                >
                                     Themes
                                 </button>
                             </li>

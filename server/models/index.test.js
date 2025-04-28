@@ -17,7 +17,6 @@ jest.mock('./playlist.js', () => ({
 }));
 jest.mock('./searchResults.js');
 
-// Mock the entire module under test
 jest.mock('../models/index.js', () => ({
   sequelize: { sync: jest.fn().mockResolvedValue(true) },
   User: require('./user.js'),
@@ -35,10 +34,8 @@ jest.mock('../models/index.js', () => ({
   }
 }));
 
-// Now require the axios module
 const axios = require('axios');
 
-// Now require your module (which is now fully mocked)
 const musicModule = require('../models/index.js');
 
 describe('Music App Service Tests', () => {
@@ -128,14 +125,12 @@ describe('Music App Service Tests', () => {
   });
 });
 
-// Example of a test that focuses on the API integration
 describe('API Integration Tests', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('should process the API response for song details', async () => {
-    // Mock the API response data structure
     const mockTrackData = {
       id: 'track123',
       title: 'Test Track',
@@ -150,7 +145,6 @@ describe('API Integration Tests', () => {
     
     const result = await musicModule.getApiSongDetailsById('track123');
     
-    // Verify the result format
     expect(result).toEqual(expect.objectContaining({
       id: expect.any(String),
       title: expect.any(String),

@@ -1,13 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './PlaylistSection.css';
+import PlaylistDetail from './PlaylistDetail';
 
-const PlaylistSection = ({ playlists, onCreatePlaylist, onDeletePlaylist }) => {
+const PlaylistSection = ({ playlists, onCreatePlaylist, onDeletePlaylist, onSongSelect, onAddToQueue }) => {
     const [newPlaylistName, setNewPlaylistName] = useState('');
     const [editingPlaylist, setEditingPlaylist] = useState(null);
     const [editName, setEditName] = useState('');
     const [openMenuId, setOpenMenuId] = useState(null);
     const menuRef = useRef(null);
     const [localPlaylists, setLocalPlaylists] = useState(playlists);
+    const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 
     // Update local playlists when props change
     useEffect(() => {
@@ -77,6 +79,29 @@ const PlaylistSection = ({ playlists, onCreatePlaylist, onDeletePlaylist }) => {
         setOpenMenuId(openMenuId === playlistId ? null : playlistId);
     };
 
+    const handlePlaylistClick = async (playlist) => {
+        if (editingPlaylist === playlist.id) return;
+        
+        try {
+            // Fetch the latest version of the playlist to get updated songs
+            const response = await fetch(`/api/playlist/${playlist.id}`);
+            if (response.ok) {
+                const freshPlaylist = await response.json();
+                setSelectedPlaylist(freshPlaylist);
+            } else {
+                console.error('Failed to fetch playlist details');
+                setSelectedPlaylist(playlist);
+            }
+        } catch (error) {
+            console.error('Error fetching playlist details:', error);
+            setSelectedPlaylist(playlist);
+        }
+    };
+
+    const closePlaylistDetail = () => {
+        setSelectedPlaylist(null);
+    };
+
     // Close menu when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -89,80 +114,105 @@ const PlaylistSection = ({ playlists, onCreatePlaylist, onDeletePlaylist }) => {
     }, []);
 
     return (
-        <div className="playlist-section">
-            <div className="playlist-header">
-                <h2>Your Playlists</h2>
-                <form onSubmit={handleSubmit} className="create-playlist-form">
-                    <input
-                        type="text"
-                        placeholder="New playlist name"
-                        value={newPlaylistName}
-                        onChange={(e) => setNewPlaylistName(e.target.value)}
-                    />
-                    <button type="submit">Create</button>
-                </form>
+        <>
+            <div className="playlist-section">
+                <div className="playlist-header">
+                    <h2>Your Playlists</h2>
+                    <form onSubmit={handleSubmit} className="create-playlist-form">
+                        <input
+                            type="text"
+                            placeholder="New playlist name"
+                            value={newPlaylistName}
+                            onChange={(e) => setNewPlaylistName(e.target.value)}
+                        />
+                        <button type="submit">Create</button>
+                    </form>
+                </div>
+                
+                <div className="playlist-list">
+                    {localPlaylists.length > 0 ? (
+                        localPlaylists.map(playlist => (
+                            <div 
+                                key={playlist.id} 
+                                className={`playlist-item ${selectedPlaylist?.id === playlist.id ? 'selected' : ''}`}
+                                onClick={() => handlePlaylistClick(playlist)}
+                            >
+                                {editingPlaylist === playlist.id ? (
+                                    <form 
+                                        onSubmit={(e) => handleEditSubmit(e, playlist.id)} 
+                                        className="edit-form"
+                                        onClick={(e) => e.stopPropagation()} // Prevent click on form from selecting playlist
+                                    >
+                                        <input
+                                            type="text"
+                                            value={editName}
+                                            onChange={(e) => setEditName(e.target.value)}
+                                            autoFocus
+                                        />
+                                        <div className="edit-actions">
+                                            <button type="submit" className="save-button">Save</button>
+                                            <button 
+                                                type="button" 
+                                                className="cancel-button"
+                                                onClick={() => setEditingPlaylist(null)}
+                                            >
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </form>
+                                ) : (
+                                    <>
+                                        <div className="playlist-info">
+                                            <h3>{playlist.title}</h3>
+                                            <p>{playlist.songsInPlaylist.length} songs</p>
+                                        </div>
+                                        <div 
+                                            className="playlist-actions"
+                                            onClick={(e) => e.stopPropagation()} // Prevent click on actions from selecting playlist
+                                        >
+                                            <button 
+                                                className="menu-button"
+                                                onClick={() => toggleMenu(playlist.id)}
+                                                aria-label="Playlist options"
+                                            >
+                                                <span className="dots">⋮</span>
+                                            </button>
+                                            {openMenuId === playlist.id && (
+                                                <div className="dropdown-menu" ref={menuRef}>
+                                                    <button onClick={() => startEdit(playlist)}>
+                                                        Edit name
+                                                    </button>
+                                                    <button onClick={() => {
+                                                        onDeletePlaylist(playlist.id);
+                                                        setOpenMenuId(null);
+                                                        if (selectedPlaylist?.id === playlist.id) {
+                                                            setSelectedPlaylist(null);
+                                                        }
+                                                    }}>
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        ))
+                    ) : (
+                        <p className="empty-playlists">No playlists yet. Create one!</p>
+                    )}
+                </div>
             </div>
             
-            <div className="playlist-list">
-                {localPlaylists.length > 0 ? (
-                    localPlaylists.map(playlist => (
-                        <div key={playlist.id} className="playlist-item">
-                            {editingPlaylist === playlist.id ? (
-                                <form onSubmit={(e) => handleEditSubmit(e, playlist.id)} className="edit-form">
-                                    <input
-                                        type="text"
-                                        value={editName}
-                                        onChange={(e) => setEditName(e.target.value)}
-                                        autoFocus
-                                    />
-                                    <div className="edit-actions">
-                                        <button type="submit" className="save-button">Save</button>
-                                        <button 
-                                            type="button" 
-                                            className="cancel-button"
-                                            onClick={() => setEditingPlaylist(null)}
-                                        >
-                                            Cancel
-                                        </button>
-                                    </div>
-                                </form>
-                            ) : (
-                                <>
-                                    <div className="playlist-info">
-                                        <h3>{playlist.title}</h3>
-                                        <p>{playlist.songsInPlaylist.length} songs</p>
-                                    </div>
-                                    <div className="playlist-actions">
-                                        <button 
-                                            className="menu-button"
-                                            onClick={() => toggleMenu(playlist.id)}
-                                            aria-label="Playlist options"
-                                        >
-                                            <span className="dots">⋮</span>
-                                        </button>
-                                        {openMenuId === playlist.id && (
-                                            <div className="dropdown-menu" ref={menuRef}>
-                                                <button onClick={() => startEdit(playlist)}>
-                                                    Edit name
-                                                </button>
-                                                <button onClick={() => {
-                                                    onDeletePlaylist(playlist.id);
-                                                    setOpenMenuId(null);
-                                                }}>
-                                                    Delete
-                                                </button>
-                                            </div>
-                                        )}
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                    ))
-                ) : (
-                    <p className="empty-playlists">No playlists yet. Create one!</p>
-                )}
-            </div>
-        </div>
+            {selectedPlaylist && (
+                <PlaylistDetail 
+                    playlist={selectedPlaylist} 
+                    onClose={closePlaylistDetail}
+                    onPlaySong={onSongSelect}
+                    onAddToQueue={onAddToQueue}
+                />
+            )}
+        </>
     );
 };
 

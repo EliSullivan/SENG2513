@@ -240,6 +240,8 @@ const Navbar = () => {
                         playlists={playlists} 
                         onCreatePlaylist={handleCreatePlaylist}
                         onDeletePlaylist={handleDeletePlaylist}
+                        onSongSelect={handleSongSelect}
+                        onAddToQueue={addToQueue}
                     />
                 )}
 

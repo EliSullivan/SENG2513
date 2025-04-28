@@ -1,8 +1,8 @@
 .playlist-section {
     position: fixed;
-    left: 250px;
+    left: 200px;
     top: 0;
-    width: 300px;
+    width: 375px;
     height: 100vh;
     background-color: #222;
     color: white;
@@ -64,10 +64,16 @@
     margin-bottom: 8px;
     background-color: #333;
     transition: background-color 0.2s;
+    cursor: pointer;
 }
 
 .playlist-item:hover {
     background-color: #444;
+}
+
+.playlist-item.selected {
+    background-color: #555;
+    border-left: 3px solid white;
 }
 
 .playlist-info {
@@ -84,6 +90,7 @@
     font-size: 0.8rem;
     color: #aaa;
 }
+
 
 .playlist-actions {
     position: relative;

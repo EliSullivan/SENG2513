@@ -9,7 +9,7 @@
   float: left;
   height: 100vh;
   margin: 0;
-  width: 250px;
+  width: 200px;
   background-color: #333;
   color: white;
   position: relative;
@@ -25,7 +25,7 @@
 
 .app-title {
   color: white;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   padding: 0 15px;
   margin-top: 0;
   margin-bottom: 20px;
@@ -43,18 +43,18 @@
 .nav-links li a {
   color: white;
   text-decoration: none;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   transition: color 0.3s;
 }
 
 .nav-links input {
   display: flex;
   width: 80%;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
 }
 
 .nav-links li {
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 .nav-links li a:hover {
@@ -69,21 +69,21 @@
 .main-content {
   flex: 1;
   padding: 20px;
-  margin-left: 250px;
+  margin-left: 200px;
   transition: margin-left 0.3s ease;
 }
 
-.main-content.with-playlist-open {
-  margin-left: 550px; /* Navbar width (250px) + Playlist section width (300px) */
+.main-content.with-section-open {
+  margin-left: 500px; /* Navbar (200px) + Playlist section (300px) */
+  transition: margin 0.3s ease;
 }
-
 
 .playlist-toggle, .queue-toggle {
   background: none;
   border: none;
   color: white;
   cursor: pointer;
-  font-size: 1.5rem;
+  font-size: 1.4rem; /* Slightly smaller */
   display: flex;
   align-items: center;
   text-align: left;
@@ -107,8 +107,8 @@
     display: flex; /* Show links when toggled */
   }
   
-  .main-content.with-playlist-open {
-    margin-left: 250px;
+  .main-content.with-section-open {
+    margin-left: 200px;
   }
   
   .playlist-section {
@@ -119,16 +119,10 @@
   }
 }
 
-.with-section-open {
-  margin-right: 300px;
-  transition: margin 0.3s ease;
-}
-
 .songUI-container {
   width: 100%;
   overflow: hidden;
 }
-
 
 @media screen and (max-width: 768px) {
   .with-section-open {

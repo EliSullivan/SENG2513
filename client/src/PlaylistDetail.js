@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import './PlaylistDetail.css';
 
-const PlaylistDetail = ({ playlist, onClose, onPlaySong, onAddToQueue }) => {
+const PlaylistDetail = forwardRef(({ playlist, onClose, onPlaySong, onAddToQueue, onPlaylistUpdated }, ref) => {
   const [songs, setSongs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openMenuId, setOpenMenuId] = useState(null);
   const [playlistData, setPlaylistData] = useState(null);
+
+  // Expose refreshPlaylist method to parent components via ref
+  useImperativeHandle(ref, () => ({
+    refreshPlaylist: fetchCurrentPlaylist
+  }));
 
   useEffect(() => {
     if (playlist && playlist.id) {
@@ -19,7 +24,7 @@ const PlaylistDetail = ({ playlist, onClose, onPlaySong, onAddToQueue }) => {
 
   useEffect(() => {
     if (playlistData && playlistData.songsInPlaylist && playlistData.songsInPlaylist.length > 0) {
-      fetchSongDetails(playlistData.songsInPlaylist);
+      fetchSongsOptimized(playlistData.songsInPlaylist);
     } else if (playlistData) {
       setSongs([]);
       setLoading(false);
@@ -57,7 +62,7 @@ const PlaylistDetail = ({ playlist, onClose, onPlaySong, onAddToQueue }) => {
     }
   };
 
-  const fetchSongDetails = async (songIds) => {
+  const fetchSongsOptimized = async (songIds) => {
     if (!songIds || songIds.length === 0) {
       setSongs([]);
       setLoading(false);
@@ -65,25 +70,61 @@ const PlaylistDetail = ({ playlist, onClose, onPlaySong, onAddToQueue }) => {
     }
   
     try {
-      const response = await fetch(`/api/getApiSongDetailsById?ids=${songIds.join(',')}`);
+      const checkResponse = await fetch('/api/checkSongsInDb', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ songIds }),
+      });
       
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+      if (!checkResponse.ok) {
+        throw new Error(`HTTP error! Status: ${checkResponse.status}`);
       }
       
-      const data = await response.json();
-      const songsArray = Array.isArray(data) ? data : [data];
-      setSongs(songsArray);
-      setLoading(false);
-      return;
+      const checkResult = await checkResponse.json();
+      const { existingSongs, songIdsToFetch } = checkResult;
+      
+      let allSongs = [...existingSongs];
+      
+      if (songIdsToFetch && songIdsToFetch.length > 0) {
+        const songPromises = songIdsToFetch.map(id => 
+          fetch(`/api/getApiSongDetailsById/${id}`)
+            .then(res => res.ok ? res.json() : null)
+            .catch(err => {
+              console.error(`Error fetching song ${id}:`, err);
+              return null;
+            })
+        );
+        
+        const fetchedSongs = await Promise.all(songPromises);
+        const validFetchedSongs = fetchedSongs.filter(Boolean);
+        
+        allSongs = [...allSongs, ...validFetchedSongs];
+      }
+      
+      const sortedSongs = [];
+      songIds.forEach(id => {
+        const song = allSongs.find(s => s.id === id);
+        if (song) sortedSongs.push(song);
+      });
+      
+      setSongs(sortedSongs);
     } catch (error) {
-      console.error("Bulk request failed, trying individual requests:", error);
+      console.error("Error fetching songs:", error);
+      fetchSongDetails(songIds);
+    } finally {
+      setLoading(false);
     }
-  
-    await fetchSongsIndividually(songIds);
   };
 
-  const fetchSongsIndividually = async (songIds) => {
+  const fetchSongDetails = async (songIds) => {
+    if (!songIds || songIds.length === 0) {
+      setSongs([]);
+      setLoading(false);
+      return;
+    }
+  
     try {
       const songPromises = songIds.map(id => 
         fetch(`/api/getApiSongDetailsById/${id}`)
@@ -97,7 +138,7 @@ const PlaylistDetail = ({ playlist, onClose, onPlaySong, onAddToQueue }) => {
       const fetchedSongs = await Promise.all(songPromises);
       setSongs(fetchedSongs.filter(Boolean));
     } catch (error) {
-      console.error("Error fetching individual songs:", error);
+      console.error("Error fetching songs:", error);
       setSongs([]);
     } finally {
       setLoading(false);
@@ -125,6 +166,10 @@ const PlaylistDetail = ({ playlist, onClose, onPlaySong, onAddToQueue }) => {
       const updatedPlaylist = await response.json();
       setPlaylistData(updatedPlaylist);
       
+      if (onPlaylistUpdated) {
+        onPlaylistUpdated(updatedPlaylist);
+      }
+      
     } catch (error) {
       console.error("Error removing song from playlist:", error);
       fetchCurrentPlaylist();
@@ -135,6 +180,20 @@ const PlaylistDetail = ({ playlist, onClose, onPlaySong, onAddToQueue }) => {
     setOpenMenuId(openMenuId === songId ? null : songId);
   };
 
+  const handlePlayAll = () => {
+    if (songs.length === 0) return;
+    
+    // Play the first song immediately
+    onPlaySong(songs[0]);
+    
+    // Add the rest of the songs to the queue (if there are more than 1)
+    if (songs.length > 1) {
+      for (let i = 1; i < songs.length; i++) {
+        onAddToQueue(songs[i]);
+      }
+    }
+  };
+
   if (!playlistData) return null;
 
   return (
@@ -142,7 +201,16 @@ const PlaylistDetail = ({ playlist, onClose, onPlaySong, onAddToQueue }) => {
       <div className="playlist-detail-header">
         <h2>{playlistData.title}</h2>
         <p>{songs.length} songs</p>
-        <button className="close-button" onClick={onClose}>×</button>
+        <div className="playlist-controls">
+          <button 
+            className="play-all-button" 
+            onClick={handlePlayAll}
+            disabled={songs.length === 0}
+          >
+            Play All
+          </button>
+          <button className="close-button" onClick={onClose}>×</button>
+        </div>
       </div>
       
       <div className="playlist-songs">
@@ -159,7 +227,7 @@ const PlaylistDetail = ({ playlist, onClose, onPlaySong, onAddToQueue }) => {
                 )}
                 <div className="song-info">
                   <div className="song-title">{song.title}</div>
-                  <div className="song-artist">{song.artist}</div>
+                  <div className="song-artist">{song.artist || song.artists}</div>
                 </div>
                 <div className="song-menu-container">
                   <button 
@@ -206,6 +274,6 @@ const PlaylistDetail = ({ playlist, onClose, onPlaySong, onAddToQueue }) => {
       </div>
     </div>
   );
-};
+});
 
 export default PlaylistDetail;

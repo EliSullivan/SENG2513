@@ -210,6 +210,7 @@ const Navbar = () => {
                             <li>
                                 <form onSubmit={handleSearchSubmit}>
                                     <input 
+                                        class="search"
                                         type="text" 
                                         name="search" 
                                         placeholder="Search"

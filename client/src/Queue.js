@@ -1,7 +1,7 @@
 import React from 'react';
 import './Queue.css';
 
-const Queue = ({ queue, onRemoveSong, onClearQueue, onPlaySong }) => {
+const Queue = ({ queue, onRemoveSong, onClearQueue, onPlaySong, playNextInQueue }) => {
   return (
     <div className="queue-panel">
       <div className="queue-header">
@@ -50,6 +50,14 @@ const Queue = ({ queue, onRemoveSong, onClearQueue, onPlaySong }) => {
                   title="Remove from queue"
                 >
                   ✖
+                </button>
+                <button /*skip button here*/
+                  className="skip-song-button"
+                  onClick={playNextInQueue}
+                  disabled={queue.length === 0}
+                  title="Skip"
+                >
+                  ⏭
                 </button>
               </div>
             </li>

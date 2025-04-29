@@ -1,26 +1,26 @@
 .theme-default{
-    --primary-color: rgb(42, 40, 40); --secondary-color: #858484; --text-color: black; --background-color: #333333; --accent-color: grey;
-    --navbar-bg: rgb(12, 10, 10); --navbar-text: rgb(212, 201, 201); --player-bg:grey; --player-control: red; --search-bg: white; --button-hover: blue; 
+    --primary-color: rgb(42, 40, 40); --secondary-color: #858484; --text-color: white; --background-color: #333333; --accent-color: grey;
+    --navbar-bg: rgb(12, 10, 10); --navbar-text: rgb(212, 201, 201); --player-bg:grey; --player-control: red; --search-bg: white; 
 }
 .theme-dark{
     --primary-color: #2c3e50; --secondary-color: rgb(83, 79, 79); --text-color: green; --background-color: #1a1a1a; --accent-color: black;
     --navbar-bg: black; --navbar-text: blue; --player-bg: yellow; --player-control: white; --search-bg: white; --button-hover: red;
 }
 .theme-lemon{
-    --primary-color: yellow; --secondary-color: lightyellow; --text-color: black; --background-color: yellow; --accent-color: #f39c12;
-    --navbar-bg: rgb(255, 255, 157); --navbar-text: black; --player-bg: rgb(253, 253, 223); --player-control: black; --search-bg: beige; --button-hover: lightyellow;
+    --primary-color: lightyellow; --secondary-color: lightyellow; --text-color: black; --background-color: yellow; --accent-color: #f39c12;
+    --navbar-bg: rgb(254, 244, 124); --navbar-text: black; --player-bg: rgb(253, 253, 223); --player-control: black; --search-bg: beige; --button-hover: lightyellow;
 }
 .theme-bloodorange{
     --primary-color: rgb(255, 115, 0); --secondary-color: rgb(232, 29, 11); --text-color: black; --background-color: rgb(255, 77, 0); --accent-color: red;
     --navbar-bg: rgb(244, 64, 40); --navbar-text: black; --player-bg: rgb(255, 132, 0); --search-bg: white; --button-hover: red;
 }
 .theme-rose{
-    --primary-color: pink; --secondary-color: #CC8899; --text-color: black; --background-color: #B57281; --accent-color: pink; 
+    --primary-color: pink; --secondary-color: rgb(144, 103, 110); --text-color: black; --background-color: #B57281; --accent-color: pink; 
     --navbar-bg: rgb(144, 103, 110); --navbar-text: white; --search-bg: rgb(251, 247, 248);  
 }
 .theme-velvetred{
-    --primary-color: darkred; --secondary-color: maroon; --text-color: black; --background-color: #900D09; --accent-color: beige;
-    --navbar-bg: red; --navbar-text: beige;
+    --primary-color: darkred; --secondary-color: rgb(54, 13, 13); --text-color: black; --background-color: #900D09; --accent-color: beige;
+    --navbar-bg: black; --navbar-text: beige;
 }
 .theme-purplerain{
     --primary-color: indigo; --secondary-color: purple; --text-color: linear-gradient(to right, blue, black); --background-color: indigo; --accent-color: linear-gradient(to right, blue, black);

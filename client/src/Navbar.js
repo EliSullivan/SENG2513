@@ -280,6 +280,7 @@ const Navbar = () => {
                         onRemoveSong={removeFromQueue}
                         onClearQueue={clearQueue}
                         onPlaySong={playFromQueue}
+                        playNextInQueue={playNextInQueue}
                     />
                 )}
                 

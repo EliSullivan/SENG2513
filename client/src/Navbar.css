@@ -3,6 +3,10 @@
   position: relative;
 }
 
+.search{
+  color: black !important;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;

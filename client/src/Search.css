@@ -13,7 +13,7 @@
     max-width: 100%;
 }
 
-.add-to-playlist-button, .play-song-button{
+.add-to-playlist-button, .play-song-button, .add-to-queue-button{
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -24,18 +24,16 @@
     align-items: center;
 }
 
-
-
 .add-to-playlist-button, .add-to-queue-button{
     margin-top: 15px;
     font-size: 1rem;
     padding: 3px;
     padding-left: 5px;
     padding-right: 5px;
-    background-color: rgb(132, 132, 132);
     border-radius: 9px;
     border: none;
     width: 120px;
+    color: var(--text-color);
 }
 
 .add-to-playlist-button:hover, .add-to-queue-button:hover{
@@ -46,24 +44,26 @@
     margin-top: 10px;
     width: 40px;
     height: 40px;
+    background-color: transparent !important;
+    position: relative;
+}
+
+.play-song-button:before {
     content: '';
     display: block;
     width: 0;
     height: 0;
+    background-color: transparent;
     border-top: 20px solid transparent;
     border-bottom: 20px solid transparent;
     border-left: 30px solid black;
     position: relative;
     left: 5px;
-  }
-.play-song-button:hover{
-    content: '';
-    display: block;
-    width: 0;
-    height: 0;
+}
+
+.play-song-button:hover:before {
+    background-color: transparent;
     border-top: 20px solid transparent;
     border-bottom: 20px solid transparent;
     border-left: 30px solid purple;
-    position: relative;
-    left: 5px;
 }

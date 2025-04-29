@@ -9,7 +9,7 @@ import axios from 'axios';
 let detailsIds = "";
 
 const apiHeaders = {
-  'x-rapidapi-key': '5cb5d989efmsh8ebf3b013958e2ap16a7e7jsnb61418d48af4',
+  'x-rapidapi-key': '9728086f9dmsh098b92e35de1a35p1acdb1jsn89a6760ccc84',
   'x-rapidapi-host': 'spotify-downloader9.p.rapidapi.com'
 }
 

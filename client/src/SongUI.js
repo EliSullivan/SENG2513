@@ -1,38 +1,54 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./SongUI.css";
 
-const SongUI = ({ currentSong, queue = [], onSongEnd }) => {
+const SongUI = ({ currentSong, queue = [], onSongEnd, onPlaybackStatusChange }) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const audioRef = useRef(null);
     
-    // Effect to set up event listeners for the audio element
+    const currentSongIdRef = useRef(null);
+    
     useEffect(() => {
-        const audioElement = document.getElementById('songNowPlaying');
-        if (!audioElement) return;
+        let audioElement = document.getElementById('songNowPlaying');
+        if (!audioElement) {
+            audioElement = document.createElement('audio');
+            audioElement.id = 'songNowPlaying';
+            document.body.appendChild(audioElement);
+        }
         
-        // Store ref to audio element for use in other functions
         audioRef.current = audioElement;
         
         const handleSongEnd = () => {
             console.log("Song ended, checking queue...");
             setIsPlaying(false);
             
-            // Play next song in queue if available
+            if (onPlaybackStatusChange) {
+                onPlaybackStatusChange(false);
+            }
+            
             if (queue.length > 0 && onSongEnd) {
                 console.log("Queue has songs, playing next");
                 onSongEnd();
             }
         };
 
-        const handlePause = () => setIsPlaying(false);
-        const handlePlay = () => setIsPlaying(true);
+        const handlePause = () => {
+            setIsPlaying(false);
+            if (onPlaybackStatusChange) {
+                onPlaybackStatusChange(false);
+            }
+        };
+        
+        const handlePlay = () => {
+            setIsPlaying(true);
+            if (onPlaybackStatusChange) {
+                onPlaybackStatusChange(true);
+            }
+        };
 
-        // Add event listeners
         audioElement.addEventListener('ended', handleSongEnd);
         audioElement.addEventListener('pause', handlePause);
         audioElement.addEventListener('play', handlePlay);
         
-        // Clean up event listeners on component unmount
         return () => {
             if (audioElement) {
                 audioElement.removeEventListener('ended', handleSongEnd);
@@ -40,50 +56,64 @@ const SongUI = ({ currentSong, queue = [], onSongEnd }) => {
                 audioElement.removeEventListener('play', handlePlay);
             }
         };
-    }, [queue.length, onSongEnd]); // Only re-run when queue length or onSongEnd changes
+    }, []);
     
-    // Effect to handle playing a new song when currentSong changes
+    useEffect(() => {
+        if (audioRef.current) {
+            setIsPlaying(!audioRef.current.paused);
+        }
+    }, []);
+    
     useEffect(() => {
         const audioElement = audioRef.current;
         
-        // If we have a current song and audio element, play it
         if (currentSong && audioElement) {
-            console.log("Loading new song:", currentSong.title);
+            const newSongId = currentSong.id;
             
-            // Check if previewUrl exists
-            if (!currentSong.previewUrl) {
-                console.error("Song has no preview URL:", currentSong);
-                // If no preview URL, try to play next song if available
-                if (queue.length > 0 && onSongEnd) {
-                    console.log("No preview URL, skipping to next song");
-                    onSongEnd();
+            if (newSongId !== currentSongIdRef.current) {
+                console.log("Loading new song:", currentSong.title);
+                currentSongIdRef.current = newSongId;
+                
+                if (!currentSong.previewUrl) {
+                    console.error("Song has no preview URL:", currentSong);
+                    // if current song doesn't have a url then skip ahead
+                    if (queue.length > 0 && onSongEnd) {
+                        console.log("No preview URL, skipping to next song");
+                        onSongEnd();
+                    }
+                    return;
                 }
-                return;
+                
+                audioElement.src = currentSong.previewUrl;
+                
+                // timeout so the source can load
+                const playTimer = setTimeout(() => {
+                    audioElement.play()
+                        .then(() => {
+                            console.log("Now playing:", currentSong.title);
+                            setIsPlaying(true);
+                            
+                            if (onPlaybackStatusChange) {
+                                onPlaybackStatusChange(true);
+                            }
+                        })
+                        .catch(err => {
+                            console.error("Error playing audio:", err);
+                            if (onPlaybackStatusChange) {
+                                onPlaybackStatusChange(false);
+                            }
+                            
+                            if (queue.length > 0 && onSongEnd) {
+                                console.log("Error playing song, skipping to next");
+                                onSongEnd();
+                            }
+                        });
+                }, 100);
+                
+                return () => clearTimeout(playTimer);
             }
-            
-            // Set the source and play
-            audioElement.src = currentSong.previewUrl;
-            
-            // Use a small timeout to ensure the src is loaded before play
-            const playTimer = setTimeout(() => {
-                audioElement.play()
-                    .then(() => {
-                        console.log("Now playing:", currentSong.title);
-                        setIsPlaying(true);
-                    })
-                    .catch(err => {
-                        console.error("Error playing audio:", err);
-                        // If there's an error playing, try next song if available
-                        if (queue.length > 0 && onSongEnd) {
-                            console.log("Error playing song, skipping to next");
-                            onSongEnd();
-                        }
-                    });
-            }, 100);
-            
-            return () => clearTimeout(playTimer);
         }
-    }, [currentSong, queue.length, onSongEnd]);
+    }, [currentSong, queue.length, onSongEnd, onPlaybackStatusChange]);
     
     const togglePlayPause = () => {
         const audioElement = audioRef.current;
@@ -95,13 +125,10 @@ const SongUI = ({ currentSong, queue = [], onSongEnd }) => {
             audioElement.play().catch(err => console.error("Error playing audio:", err));
         }
     };
-
-
     
     return (
         <div className="container">
             <div className="song">
-                <audio id="songNowPlaying"></audio>
                 <h1>Currently Playing:</h1>
                 <div className="albumCover">
                     <img

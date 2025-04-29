@@ -18,8 +18,8 @@ const Navbar = () => {
     const [currentSong, setCurrentSong] = useState(null);
     const [queue, setQueue] = useState([]); 
     const [showQueue, setShowQueue] = useState(false);
-    const navigate = useNavigate();
     const [showThemes, setShowThemes]= useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchPlaylists();
@@ -57,10 +57,14 @@ const Navbar = () => {
           });
     };
 
-    // Queue management functions
     const addToQueue = (song) => {
         console.log("Adding to queue:", song);
-        setQueue(prevQueue => [...prevQueue, song]);
+        
+        if (!currentSong) {
+            handleSongSelect(song);
+        } else {
+            setQueue(prevQueue => [...prevQueue, song]);
+        }
     };
 
     const removeFromQueue = (index) => {
@@ -76,6 +80,12 @@ const Navbar = () => {
             const nextSong = queue[0];
             console.log("Playing next song from queue:", nextSong);
             
+            setQueue(prevQueue => {
+                const newQueue = [...prevQueue];
+                newQueue.shift();
+                return newQueue;
+            });
+
             fetch(`/api/getApiSongDetailsById/${nextSong.id}`)
               .then(response => {
                 if (!response.ok) {
@@ -85,12 +95,10 @@ const Navbar = () => {
               })
               .then(trackData => {
                 setCurrentSong(trackData);
-                setQueue(prevQueue => prevQueue.slice(1));
               })
               .catch(error => {
                 console.error("Error fetching next song details:", error);
                 setCurrentSong(nextSong);
-                setQueue(prevQueue => prevQueue.slice(1));
               });
         } else {
             setCurrentSong(null);

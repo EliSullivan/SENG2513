@@ -20,7 +20,7 @@ div .song{
 .play-button, .pause-button {
     width: 40px;
     height: 40px;
-    background-color: transparent;
+    background-color: transparent !important;
     border: none;
     cursor: pointer;
     position: relative;
@@ -102,20 +102,6 @@ img{
   object-fit: cover;
   border-radius: 4px;
   margin-top: 10px;
-}
-
-.skip-button {
-  background: transparent;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  margin-left: 10px;
-  opacity: 0.8;
-  transition: opacity 0.2s;
-}
-
-.skip-button:hover {
-  opacity: 1;
 }
 
 .player-controls {

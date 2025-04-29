@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './PlaylistSelect.css';
 
-const PlaylistSelect = ({ song, onClose }) => {
+const PlaylistSelect = ({ song, onClose, onPlaylistUpdated }) => {
   const [playlists, setPlaylists] = useState([]);
   const [selectedPlaylistId, setSelectedPlaylistId] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -64,8 +64,11 @@ const PlaylistSelect = ({ song, onClose }) => {
         throw new Error(errorData.error || 'Failed to add song to playlist');
       }
       
+      await response.json();
       setSuccess(`Added "${song.title}" to playlist!`);
       
+      
+      // Close the modal after a short delay
       setTimeout(() => {
         onClose();
       }, 1500);

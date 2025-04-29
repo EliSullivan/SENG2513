@@ -5,7 +5,7 @@ const themes = [
     {id:'default', name:'Default', color:'grey'},
     {id:'dark', name:'Dark', color:'black'},
     {id:'lemon', name:'Lemon', color:'yellow'},
-    {id:'bloodorange', name:'BloodOrange', color:'linear-gradient(orange, red)'},
+    {id:'bloodorange', name:'BloodOrange', color:'orange'},
     {id:'rose', name:'Rose', color:'#CC8899'},
     {id:'velvetred', name:'VelvetRed', color:'maroon'},
     {id:'purplerain', name:'Purple Rain', color:'indigo'},

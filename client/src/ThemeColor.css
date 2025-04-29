@@ -8,7 +8,7 @@
 }
 .theme-lemon{
     --primary-color: yellow; --secondary-color: lightyellow; --text-color: black; --background-color: yellow; --accent-color: #f39c12;
-    --navbar-bg: rgb(255, 255, 157); --navbar-text: black; --player-bg: rgb(253, 253, 223); --player-control: black; --search-bg: yellow; --button-hover: lightyellow;
+    --navbar-bg: rgb(255, 255, 157); --navbar-text: black; --player-bg: rgb(253, 253, 223); --player-control: black; --search-bg: beige; --button-hover: lightyellow;
 }
 .theme-bloodorange{
     --primary-color: rgb(255, 115, 0); --secondary-color: rgb(232, 29, 11); --text-color: black; --background-color: rgb(255, 77, 0); --accent-color: red;
@@ -16,10 +16,11 @@
 }
 .theme-rose{
     --primary-color: pink; --secondary-color: #CC8899; --text-color: black; --background-color: #B57281; --accent-color: pink; 
-    --navbar-bg: rgb(144, 103, 110); --navbar-text: white; --player-bg: 
+    --navbar-bg: rgb(144, 103, 110); --navbar-text: white; --search-bg: rgb(251, 247, 248);  
 }
 .theme-velvetred{
     --primary-color: darkred; --secondary-color: maroon; --text-color: black; --background-color: #900D09; --accent-color: beige;
+    --navbar-bg: red; --navbar-text: beige;
 }
 .theme-purplerain{
     --primary-color: indigo; --secondary-color: purple; --text-color: linear-gradient(to right, blue, black); --background-color: indigo; --accent-color: linear-gradient(to right, blue, black);
@@ -44,7 +45,7 @@ body {
     color: var(--navbar-text);
 }
 .app-container button {
-    background-color: var(--primary-color);
+    background-color: transparent;
     color: var(--navbar-text);
 }
 .app-container button:hover{

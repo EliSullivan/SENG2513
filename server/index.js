@@ -307,4 +307,36 @@ app.delete("/api/playlist/:id/songs/:songId", async (req, res) => {
   }
 });
 
+// Check which songs need to be fetched from API
+app.post("/api/checkSongsInDb", async (req, res) => {
+  try {
+    const { songIds } = req.body;
+    
+    if (!songIds || !Array.isArray(songIds) || songIds.length === 0) {
+      return res.status(400).json({ error: "Valid song IDs array is required" });
+    }
+    
+    const existingSongs = await Song.findAll({
+      where: {
+        id: songIds
+      }
+    });
+    
+    const existingSongsMap = {};
+    existingSongs.forEach(song => {
+      existingSongsMap[song.id] = song;
+    });
+    
+    const result = {
+      existingSongs: existingSongs,
+      songIdsToFetch: songIds.filter(id => !existingSongsMap[id])
+    };
+    
+    return res.json(result);
+  } catch (error) {
+    console.error("Error checking songs in database:", error);
+    return res.status(500).json({ error: "Failed to check songs in database" });
+  }
+});
+
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

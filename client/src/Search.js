@@ -21,7 +21,6 @@ const Search = ({ onSongSelect, onAddToPlaylist, onAddToQueue }) => {
     }
   };
 
-
   const addToQueue = (track) => {
     if (onAddToQueue) {
       onAddToQueue(track);

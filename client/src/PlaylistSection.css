@@ -85,13 +85,6 @@
     font-size: 1rem;
 }
 
-.playlist-info p {
-    margin: 5px 0 0;
-    font-size: 0.8rem;
-    color: #aaa;
-}
-
-
 .playlist-actions {
     position: relative;
 }

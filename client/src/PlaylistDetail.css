@@ -29,11 +29,36 @@
     color: #aaa;
     font-size: 0.9rem;
 }
+
+.playlist-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.play-all-button {
+    background-color: #1db954;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.play-all-button:hover {
+    background-color: #1ed760;
+}
+
+.play-all-button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
   
 .close-button {
-    position: absolute;
-    top: 15px;
-    right: 15px;
     background: none;
     color: #aaa;
     border: none;
@@ -68,7 +93,7 @@
     background-color: #333;
     transition: background-color 0.2s;
     position: relative;
-    gap: 10px;
+    gap: 5px;
 }
   
 .song-item:hover {
@@ -76,8 +101,8 @@
 }
   
 .song-cover {
-    width: 60px;
-    height: 60px;
+    width: 50%;
+    height: 50%;
     border-radius: 4px;
     overflow: hidden;
     flex-shrink: 0;
@@ -97,7 +122,7 @@
   
 .song-title {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -106,7 +131,7 @@
   
 .song-artist {
     margin: 3px 0 0 0;
-    font-size: 1.3rem;
+    font-size: 0.85rem;
     color: #aaa;
     white-space: nowrap;
     overflow: hidden;

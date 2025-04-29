@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import './PlaylistSection.css';
 import PlaylistDetail from './PlaylistDetail';
 
-const PlaylistSection = ({ playlists, onCreatePlaylist, onDeletePlaylist, onSongSelect, onAddToQueue }) => {
+const PlaylistSection = ({ playlists, onCreatePlaylist, onDeletePlaylist, onSongSelect, onAddToQueue, onAddToPlaylist }) => {
     const [newPlaylistName, setNewPlaylistName] = useState('');
     const [editingPlaylist, setEditingPlaylist] = useState(null);
     const [editName, setEditName] = useState('');
@@ -10,11 +10,50 @@ const PlaylistSection = ({ playlists, onCreatePlaylist, onDeletePlaylist, onSong
     const menuRef = useRef(null);
     const [localPlaylists, setLocalPlaylists] = useState(playlists);
     const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+    const [forceRefresh, setForceRefresh] = useState(0);
 
     // Update local playlists when props change
     useEffect(() => {
         setLocalPlaylists(playlists);
     }, [playlists]);
+
+    // Force refresh selected playlist when needed
+    useEffect(() => {
+        if (selectedPlaylist) {
+            refreshSelectedPlaylist();
+        }
+    }, [selectedPlaylist?.id, forceRefresh]);
+
+    const refreshSelectedPlaylist = async () => {
+        if (!selectedPlaylist || !selectedPlaylist.id) return;
+        
+        try {
+            const response = await fetch(`/api/playlist/${selectedPlaylist.id}`);
+            if (response.ok) {
+                const freshPlaylist = await response.json();
+                setSelectedPlaylist(freshPlaylist);
+            } else {
+                console.error('Failed to fetch playlist details');
+            }
+        } catch (error) {
+            console.error('Error fetching playlist details:', error);
+        }
+    };
+
+    // Set up a shared callback for playlist updates when songs are removed
+    const handlePlaylistUpdated = (updatedPlaylist) => {
+        console.log('Playlist updated:', updatedPlaylist);
+        
+        // Update local playlists list
+        setLocalPlaylists(prevPlaylists => 
+            prevPlaylists.map(p => p.id === updatedPlaylist.id ? updatedPlaylist : p)
+        );
+        
+        // If this is the currently selected playlist, update it
+        if (selectedPlaylist && selectedPlaylist.id === updatedPlaylist.id) {
+            setSelectedPlaylist(updatedPlaylist);
+        }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -37,11 +76,16 @@ const PlaylistSection = ({ playlists, onCreatePlaylist, onDeletePlaylist, onSong
                 });
 
                 if (response.ok) {
+                    const updatedPlaylist = await response.json();
                     const updatedPlaylists = localPlaylists.map(p => 
-                        p.id === playlistId ? {...p, title: editName} : p
+                        p.id === playlistId ? updatedPlaylist : p
                     );
                     setLocalPlaylists(updatedPlaylists);
-                    fetchPlaylists();
+                    
+                    // If this was the selected playlist, update it
+                    if (selectedPlaylist && selectedPlaylist.id === playlistId) {
+                        setSelectedPlaylist(updatedPlaylist);
+                    }
                     
                     // Reset edit state
                     setEditingPlaylist(null);
@@ -113,6 +157,13 @@ const PlaylistSection = ({ playlists, onCreatePlaylist, onDeletePlaylist, onSong
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    // Pass the onAddToPlaylist callback function to parent components
+    useEffect(() => {
+        if (onAddToPlaylist) {
+            onAddToPlaylist(null);
+        }
+    }, [onAddToPlaylist]);
+
     return (
         <>
             <div className="playlist-section">
@@ -164,7 +215,6 @@ const PlaylistSection = ({ playlists, onCreatePlaylist, onDeletePlaylist, onSong
                                     <>
                                         <div className="playlist-info">
                                             <h3>{playlist.title}</h3>
-                                            <p>{playlist.songsInPlaylist.length} songs</p>
                                         </div>
                                         <div 
                                             className="playlist-actions"
@@ -206,10 +256,12 @@ const PlaylistSection = ({ playlists, onCreatePlaylist, onDeletePlaylist, onSong
             
             {selectedPlaylist && (
                 <PlaylistDetail 
+                    key={`playlist-detail-${selectedPlaylist.id}-${forceRefresh}`}
                     playlist={selectedPlaylist} 
                     onClose={closePlaylistDetail}
                     onPlaySong={onSongSelect}
                     onAddToQueue={onAddToQueue}
+                    onPlaylistUpdated={handlePlaylistUpdated}
                 />
             )}
         </>

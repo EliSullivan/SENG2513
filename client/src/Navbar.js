@@ -71,14 +71,11 @@ const Navbar = () => {
         setQueue([]);
     };
 
-    // Function to handle when a song ends - play next in queue
-    // Using useCallback to avoid recreating this function on each render
     const playNextInQueue = useCallback(() => {
         if (queue.length > 0) {
             const nextSong = queue[0];
             console.log("Playing next song from queue:", nextSong);
             
-            // Get detailed song info if needed
             fetch(`/api/getApiSongDetailsById/${nextSong.id}`)
               .then(response => {
                 if (!response.ok) {
@@ -88,12 +85,10 @@ const Navbar = () => {
               })
               .then(trackData => {
                 setCurrentSong(trackData);
-                // Remove the song from the queue
                 setQueue(prevQueue => prevQueue.slice(1));
               })
               .catch(error => {
                 console.error("Error fetching next song details:", error);
-                // If there's an error, still remove the song and try to play it directly
                 setCurrentSong(nextSong);
                 setQueue(prevQueue => prevQueue.slice(1));
               });
@@ -106,7 +101,6 @@ const Navbar = () => {
         if (index >= 0 && index < queue.length) {
             const selectedSong = queue[index];
             
-            // Get detailed song info
             fetch(`/api/getApiSongDetailsById/${selectedSong.id}`)
               .then(response => {
                 if (!response.ok) {
@@ -116,12 +110,10 @@ const Navbar = () => {
               })
               .then(trackData => {
                 setCurrentSong(trackData);
-                // Remove the selected song from the queue
                 setQueue(prevQueue => prevQueue.filter((_, i) => i !== index));
               })
               .catch(error => {
                 console.error("Error fetching selected song details:", error);
-                // If there's an error, still try to play it directly
                 setCurrentSong(selectedSong);
                 setQueue(prevQueue => prevQueue.filter((_, i) => i !== index));
               });
@@ -219,7 +211,15 @@ const Navbar = () => {
                                     <button type="submit">Search</button>
                                 </form>
                             </li>
-                            <li><Link to="/Songs">Library</Link></li>
+                            <li>
+                            <button
+                                className="library-button"
+                                onClick={() => navigate('/Songs')}
+                                type="button"
+                            >
+                                Library
+                            </button>
+                            </li>
                             <li>
                                 <button 
                                     className="playlist-toggle" 
@@ -242,16 +242,17 @@ const Navbar = () => {
                                 <button 
                                     className="theme-toggle-btn"
                                     onClick={toggleThemeDropdown}
+                                    type="button"
                                 >
                                     Themes
                                 </button>
                             </li>
                         </ul>
                     </div>
-                    {showThemes && (
-                    <div className="theme-dropdown">
-                        <ThemeToggle />
-                    </div>
+                                    {showThemes && (
+                <div className="theme-dropdown">
+                    <ThemeToggle />
+                </div>
                 )}
                 </nav>
                 

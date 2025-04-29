@@ -22,17 +22,7 @@ opacity: 1;
 .current-theme{
     margin-top: 30px; font-weight: bold;
 }
-.theme-toggle-btn{
-    background-color: var(--primary-color, #3498db);
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-.theme-toggle-btn:hover{
-    background-color: var(--accent);
-}
+
 .theme-dropdown{
     position: absolute;
     left: 250px;

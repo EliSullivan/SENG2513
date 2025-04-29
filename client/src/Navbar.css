@@ -41,7 +41,6 @@
 }
 
 .nav-links li a {
-  color: white;
   text-decoration: none;
   font-size: 1.4rem;
   transition: color 0.3s;
@@ -78,7 +77,9 @@
   transition: margin 0.3s ease;
 }
 
-.playlist-toggle, .queue-toggle {
+.playlist-toggle, .queue-toggle, .theme-toggle-btn, .library-button{
+  width: 100%;
+  left: 0px;
   background: none;
   border: none;
   color: white;
@@ -93,7 +94,7 @@
   pointer-events: auto !important;
 }
 
-.playlist-toggle:hover, .queue-toggle:hover {
+.playlist-toggle:hover, .queue-toggle:hover, .theme-toggle-btn:hover, .library-button:hover{
   color: #f00000;
 }
 

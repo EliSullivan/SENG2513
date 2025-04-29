@@ -9,7 +9,7 @@ div .container{
 }
 
 div .song{
-    background-color: #484848;
+    background-color: var(--secondary-color, #333);
     width: 50%;
     height: 50%;
     margin: 0 auto;
@@ -62,7 +62,7 @@ div .queue{
     font-size: 1rem;
     float: top;
     margin: 0 auto;
-    background-color:#484848;
+    background-color: var(--secondary-color, #333);
     max-width: 50%;
     max-height: 25%;
     text-align: left;

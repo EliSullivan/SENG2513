@@ -1,38 +1,42 @@
 .theme-default{
     --primary-color: rgb(42, 40, 40); --secondary-color: #858484; --text-color: white; --background-color: #333333; --accent-color: grey;
-    --navbar-bg: rgb(12, 10, 10); --navbar-text: rgb(212, 201, 201); --player-bg:grey; --player-control: red; --search-bg: white; 
+    --navbar-bg: rgb(12, 10, 10); --navbar-text: rgb(212, 201, 201); --player-control: red; --search-bg: white; 
 }
 .theme-dark{
-    --primary-color: #2c3e50; --secondary-color: rgb(83, 79, 79); --text-color: green; --background-color: #1a1a1a; --accent-color: black;
-    --navbar-bg: black; --navbar-text: blue; --player-bg: yellow; --player-control: white; --search-bg: white; --button-hover: red;
+    --primary-color: #2c3e50; --secondary-color: rgb(83, 79, 79); --text-color: rgb(67, 4, 112); --background-color: #1a1a1a; --accent-color: black;
+    --navbar-bg: black; --navbar-text: rgb(67, 4, 112); --player-control: white; --search-bg: white;
 }
 .theme-lemon{
-    --primary-color: lightyellow; --secondary-color: lightyellow; --text-color: black; --background-color: yellow; --accent-color: #f39c12;
-    --navbar-bg: rgb(254, 244, 124); --navbar-text: black; --player-bg: rgb(253, 253, 223); --player-control: black; --search-bg: beige; --button-hover: lightyellow;
+    --primary-color: lightyellow; --secondary-color: rgb(248, 248, 211); --text-color: black; --background-color: yellow; --accent-color: #f39c12;
+    --navbar-bg: lightyellow; --navbar-text: black; --player-bg: rgb(253, 253, 223); --player-control: black; --search-bg: beige;
 }
 .theme-bloodorange{
     --primary-color: rgb(255, 115, 0); --secondary-color: rgb(232, 29, 11); --text-color: black; --background-color: rgb(255, 77, 0); --accent-color: red;
-    --navbar-bg: rgb(244, 64, 40); --navbar-text: black; --player-bg: rgb(255, 132, 0); --search-bg: white; --button-hover: red;
+    --navbar-bg: rgb(244, 64, 40); --navbar-text: black; --search-bg: white;
 }
 .theme-rose{
-    --primary-color: pink; --secondary-color: rgb(144, 103, 110); --text-color: black; --background-color: #B57281; --accent-color: pink; 
+    --primary-color: pink; --secondary-color: rgb(144, 103, 110); --text-color: white; --background-color: #B57281; --accent-color: pink; 
     --navbar-bg: rgb(144, 103, 110); --navbar-text: white; --search-bg: rgb(251, 247, 248);  
 }
 .theme-velvetred{
-    --primary-color: darkred; --secondary-color: rgb(54, 13, 13); --text-color: black; --background-color: #900D09; --accent-color: beige;
-    --navbar-bg: black; --navbar-text: beige;
+    --primary-color: darkred; --secondary-color: rgb(62, 21, 21); --text-color: grey; --background-color: #900D09; --accent-color: beige;
+    --navbar-bg: rgb(62, 21, 21); --navbar-text: grey;
 }
 .theme-purplerain{
-    --primary-color: indigo; --secondary-color: purple; --text-color: linear-gradient(to right, blue, black); --background-color: indigo; --accent-color: linear-gradient(to right, blue, black);
+    --primary-color: rgb(109, 14, 177); --secondary-color: rgb(42, 23, 138); --text-color: black; --background-color: rgb(123, 49, 176); --accent-color: blue;
+    --navbar-bg: rgb(46, 23, 138);
 }
 .theme-midnightblue{
-    --primary-color: #010445; --secondary-color: #040457; --text-color: linear-gradient(to right, grey, black); --background-color: #02044A; --accent-color: #040457;
+    --primary-color: #010445; --secondary-color: rgb(9, 9, 46); --text-color: grey; --background-color: #02044A; --accent-color: #040457;
+    --navbar-bg: rgb(9, 9, 46);
 }
 .theme-greenleaf{
-    --primary-color: darkgreen; --secondary-color: green; --text-color: linear-gradient(to right, brown, black); --background-color: darkgreen; --accent-color: green;
+    --primary-color: darkgreen; --secondary-color: rgb(70, 40, 40); --text-color: linear-gradient(to right, brown, black); --background-color: darkgreen; --accent-color: green;
+    --navbar-bg: rgb(70, 40, 40);
 }
 .theme-light{
-    --primary-color: #ffffff; --secondary-color: #bdc3c7; --text-color: linear-gradient(to right, lightgrey, black); --background-color: white; --accent-color: lightgrey;
+    --primary-color: #ffffff; --secondary-color: grey; --text-color: black; --background-color: white; --accent-color: lightgrey;
+    --navbar-bg: grey;
 }
 
 body {
